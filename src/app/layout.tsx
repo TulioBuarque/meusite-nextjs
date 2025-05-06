@@ -1,40 +1,26 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '@/components/theme-provider'
+import Link from 'next/link'
+import { Inter } from 'next/font/google'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
-})
+const inter = Inter({ subsets: ['latin'] })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin']
-})
-
-export const metadata: Metadata = {
-  title: 'ForexBlocks - Dashboard de Análise Forex',
-  description: 'Dashboard SaaS para análise de mercado Forex com blocos de tempo e indicadores avançados'
+export const metadata = {
+  title: 'ForexBlocks',
+  description: 'Dashboard de Análise Técnica para Forex Traders',
 }
 
-export default function RootLayout({
-  children
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+    <html lang="pt-BR">
+      <body className={inter.className}>
+        <nav style={{ padding: '1rem', background: '#111827', color: 'white', display: 'flex', gap: '2rem' }}>
+          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/login">Login</Link>
+          <Link href="/signup">Criar Conta</Link>
+        </nav>
+        {children}
       </body>
     </html>
   )
 }
+
