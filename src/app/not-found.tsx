@@ -1,7 +1,11 @@
+"use client";
+
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-2xl font-bold">Página não encontrada</h1>
+    <div style={{ display: 'grid', height: '100vh', placeItems: 'center' }}>
+      <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>
+        Página não encontrada.
+      </h1>
     </div>
   );
 }
