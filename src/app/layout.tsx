@@ -1,8 +1,6 @@
-// src/app/layout.tsx
 import './globals.css'
-import Link from 'next/link'
 import { Inter } from 'next/font/google'
-import { usePathname } from 'next/navigation'
+import { NavLink } from '@/components/NavLink' // Componente isolado com "use client"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,22 +27,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const pathname = usePathname()
-  const isActive = pathname === href
-
-  return (
-    <Link
-      href={href}
-      className={`px-3 py-1 rounded-md transition-colors font-medium ${
-        isActive
-          ? 'bg-blue-600 text-white'
-          : 'text-gray-300 hover:text-white hover:bg-gray-700'
-      }`}
-    >
-      {children}
-    </Link>
-  )
-}
-
