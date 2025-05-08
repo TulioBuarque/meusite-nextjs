@@ -5,7 +5,7 @@ import { IAMBlock } from './IAMBlock'
 import { KpiDispersao } from './KpiDispersao'
 import { ComparadorCandles } from './ComparadorCandles'
 import { CardAlerta } from './CardAlerta'
-import { DailyRangeIndicator } from './DailyRangeIndicator' // ✅ IMPORTADO
+import { DailyRangeIndicator } from './DailyRangeIndicator'
 
 const assets = ['EUR/USD', 'GBP/USD', 'DXY']
 
@@ -68,8 +68,7 @@ export function AssetTabs() {
   } = mockData[selected]
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      {/* Tabs */}
+    <div className="w-full max-w-7xl mx-auto px-4">
       <div className="flex justify-center mb-6 gap-4">
         {assets.map((a) => (
           <button
@@ -84,9 +83,8 @@ export function AssetTabs() {
         ))}
       </div>
 
-      {/* Painel de Indicadores */}
-      <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">{selected}</h2>
+      <div className="bg-gray-800 p-8 rounded-2xl shadow-xl w-full min-h-[600px]">
+        <h2 className="text-2xl font-semibold mb-6">{selected}</h2>
         <IAMBlock asset={selected} value={iam} />
         <DailyRangeIndicator
           asset={selected}
