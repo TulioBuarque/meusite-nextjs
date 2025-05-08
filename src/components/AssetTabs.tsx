@@ -5,7 +5,7 @@ import { IAMBlock } from './IAMBlock'
 import { KpiDispersao } from './KpiDispersao'
 import { ComparadorCandles } from './ComparadorCandles'
 import { CardAlerta } from './CardAlerta'
-import { DailyRangeIndicator } from './DailyRangeIndicator' // NOVO
+import { DailyRangeIndicator } from './DailyRangeIndicator' // ✅ IMPORTADO
 
 const assets = ['EUR/USD', 'GBP/USD', 'DXY']
 
@@ -69,6 +69,7 @@ export function AssetTabs() {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
+      {/* Tabs */}
       <div className="flex justify-center mb-6 gap-4">
         {assets.map((a) => (
           <button
@@ -83,6 +84,7 @@ export function AssetTabs() {
         ))}
       </div>
 
+      {/* Painel de Indicadores */}
       <div className="bg-gray-800 p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">{selected}</h2>
         <IAMBlock asset={selected} value={iam} />
