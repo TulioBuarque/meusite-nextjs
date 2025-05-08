@@ -1,3 +1,4 @@
+// src/components/DailyRangeIndicator.tsx
 'use client'
 
 type Props = {
@@ -22,43 +23,43 @@ export function DailyRangeIndicator({
   changeFromMax,
 }: Props) {
   const range = max - min
-  const currentPos = ((current - min) / range) * 100
+  const toPercent = (value: number) => ((max - value) / range) * 100
 
   return (
-    <div className="w-full max-w-xs mx-auto text-white">
-      <h3 className="text-lg font-semibold mb-1">{asset}</h3>
-      <p className="text-sm text-gray-400 mb-4">{date}</p>
+    <div className="mb-6 text-sm">
+      <p className="mb-2 font-semibold">{asset} - {date}</p>
+      <div className="relative h-48 w-1 bg-gray-500 mx-auto rounded">
+        {/* Max */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{ top: '0%' }}
+          title={`Máximo: ${max.toFixed(5)} (+${changeFromMax}%)`}
+        >
+          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+          <div className="text-xs text-center text-gray-300 mt-1">↑ {max.toFixed(5)}</div>
+        </div>
 
-      <div className="relative h-48 w-8 mx-auto bg-gray-800 rounded-lg">
-        {/* Linha de fundo */}
-        <div className="absolute inset-0 flex flex-col justify-between items-center py-1">
-          {/* Max */}
-          <div className="text-center text-xs text-green-400">
-            <div className="font-bold">{max.toFixed(5)}</div>
-            <div>+{changeFromMax.toFixed(2)}%</div>
-          </div>
-
-          {/* Min */}
-          <div className="text-center text-xs text-red-400">
-            <div className="font-bold">{min.toFixed(5)}</div>
-            <div>{changeFromMin.toFixed(2)}%</div>
+        {/* Current */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{ top: `${toPercent(current)}%` }}
+          title={`Atual: ${current.toFixed(5)} (${changeFromOpen > 0 ? '+' : ''}${changeFromOpen}%)`}
+        >
+          <div className={`w-3 h-3 rounded-full ${changeFromOpen >= 0 ? 'bg-green-400' : 'bg-red-400'}`}></div>
+          <div className="text-xs text-center mt-1 text-white">
+            {current.toFixed(5)} ({changeFromOpen > 0 ? '+' : ''}{changeFromOpen}%)
           </div>
         </div>
 
-        {/* Preço atual */}
+        {/* Min */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full border-2 border-white"
-          style={{ top: `${100 - currentPos}%` }}
-          title={`Preço atual: ${current.toFixed(5)} (${changeFromOpen.toFixed(2)}%)`}
-        />
-
-        {/* Linha vertical */}
-        <div className="absolute left-1/2 -translate-x-1/2 h-full w-1 bg-gray-600 rounded" />
+          className="absolute left-1/2 -translate-x-1/2 bottom-0"
+          title={`Mínimo: ${min.toFixed(5)} (${changeFromMin}%)`}
+        >
+          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+          <div className="text-xs text-center text-gray-300 mt-1">↓ {min.toFixed(5)}</div>
+        </div>
       </div>
-
-      <p className="text-center text-sm mt-4">
-        Preço atual: <span className="font-bold">{current.toFixed(5)}</span> ({changeFromOpen > 0 ? '+' : ''}{changeFromOpen.toFixed(2)}%)
-      </p>
     </div>
   )
 }
