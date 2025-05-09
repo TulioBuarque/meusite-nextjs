@@ -1,7 +1,6 @@
-// src/components/DailyRangeIndicator.tsx
 'use client'
 
-type Props = {
+interface Props {
   asset: string
   date: string
   min: number
@@ -22,42 +21,37 @@ export function DailyRangeIndicator({
   changeFromMin,
   changeFromMax,
 }: Props) {
-  const range = max - min
-  const toPercent = (value: number) => ((max - value) / range) * 100
+  const height = 400 // Dobrado para dar mais destaque visual
+
+  const position = (value: number) =>
+    ((value - min) / (max - min)) * height
 
   return (
-    <div className="mb-6 text-sm">
-      <p className="mb-2 font-semibold">{asset} - {date}</p>
-      <div className="relative h-48 w-1 bg-gray-500 mx-auto rounded">
-        {/* Max */}
+    <div className="flex flex-col items-center my-6 w-full">
+      <h3 className="text-lg font-semibold mb-2">{asset} - {date}</h3>
+      <div className="relative bg-gray-700 w-1" style={{ height }}>
+        {/* Máximo */}
         <div
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ top: '0%' }}
-          title={`Máximo: ${max.toFixed(5)} (+${changeFromMax}%)`}
+          className="absolute left-1/2 -translate-x-1/2 text-xs text-green-400"
+          style={{ bottom: `${position(max)}px` }}
         >
-          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-          <div className="text-xs text-center text-gray-300 mt-1">↑ {max.toFixed(5)}</div>
+          ● {max.toFixed(5)} (+{changeFromMax}%)
         </div>
 
-        {/* Current */}
+        {/* Atual */}
         <div
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ top: `${toPercent(current)}%` }}
-          title={`Atual: ${current.toFixed(5)} (${changeFromOpen > 0 ? '+' : ''}${changeFromOpen}%)`}
+          className="absolute left-1/2 -translate-x-1/2 text-xs text-white"
+          style={{ bottom: `${position(current)}px` }}
         >
-          <div className={`w-3 h-3 rounded-full ${changeFromOpen >= 0 ? 'bg-green-400' : 'bg-red-400'}`}></div>
-          <div className="text-xs text-center mt-1 text-white">
-            {current.toFixed(5)} ({changeFromOpen > 0 ? '+' : ''}{changeFromOpen}%)
-          </div>
+          ● {current.toFixed(5)} ({changeFromOpen}%)
         </div>
 
-        {/* Min */}
+        {/* Mínimo */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 bottom-0"
-          title={`Mínimo: ${min.toFixed(5)} (${changeFromMin}%)`}
+          className="absolute left-1/2 -translate-x-1/2 text-xs text-red-400"
+          style={{ bottom: `0px` }}
         >
-          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-          <div className="text-xs text-center text-gray-300 mt-1">↓ {min.toFixed(5)}</div>
+          ● {min.toFixed(5)} ({changeFromMin}%)
         </div>
       </div>
     </div>
