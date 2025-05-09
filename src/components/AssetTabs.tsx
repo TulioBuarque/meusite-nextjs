@@ -53,16 +53,28 @@ const mockData = {
 
 export function AssetTabs() {
   const [selected, setSelected] = useState('EUR/USD')
-  const { iam, dispersao, candle30, candle1h, alerta, min, max, current, changeFromOpen, changeFromMin, changeFromMax } = mockData[selected]
+  const {
+    iam,
+    dispersao,
+    candle30,
+    candle1h,
+    alerta,
+    min,
+    max,
+    current,
+    changeFromOpen,
+    changeFromMin,
+    changeFromMax,
+  } = mockData[selected]
 
   return (
-    <div className="w-full max-w-[95%] mx-auto">
-      <div className="flex justify-center mb-8 gap-6">
+    <div className="w-full px-4 max-w-[1600px] mx-auto">
+      <div className="flex justify-center mb-6 gap-4">
         {assets.map((a) => (
           <button
             key={a}
             onClick={() => setSelected(a)}
-            className={`px-6 py-3 rounded-md text-lg font-semibold transition ${
+            className={`px-4 py-2 rounded font-semibold text-sm transition ${
               selected === a ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-gray-300 hover:bg-zinc-600'
             }`}
           >
@@ -71,28 +83,22 @@ export function AssetTabs() {
         ))}
       </div>
 
-      <div className="bg-gray-800 p-10 rounded-lg shadow-md border border-gray-700 w-full">
-        <h2 className="text-3xl font-bold mb-6 text-center">{selected}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-          <div>
-            <IAMBlock asset={selected} value={iam} />
-            <DailyRangeIndicator
-              asset={selected}
-              date="08/05/2025"
-              min={min}
-              max={max}
-              current={current}
-              changeFromOpen={changeFromOpen}
-              changeFromMin={changeFromMin}
-              changeFromMax={changeFromMax}
-            />
-          </div>
-          <div>
-            <KpiDispersao value={dispersao} />
-            <ComparadorCandles candle30={candle30} candle1h={candle1h} />
-            <CardAlerta text={alerta} />
-          </div>
-        </div>
+      <div className="bg-gray-800 p-8 rounded-lg shadow-md w-full">
+        <h2 className="text-2xl font-semibold mb-6">{selected}</h2>
+        <IAMBlock asset={selected} value={iam} />
+        <DailyRangeIndicator
+          asset={selected}
+          date="08/05/2025"
+          min={min}
+          max={max}
+          current={current}
+          changeFromOpen={changeFromOpen}
+          changeFromMin={changeFromMin}
+          changeFromMax={changeFromMax}
+        />
+        <KpiDispersao value={dispersao} />
+        <ComparadorCandles candle30={candle30} candle1h={candle1h} />
+        <CardAlerta text={alerta} />
       </div>
     </div>
   )
