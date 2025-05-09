@@ -21,31 +21,30 @@ export function DailyRangeIndicator({
   changeFromMin,
   changeFromMax,
 }: Props) {
-  const height = 400
+  const height = 600 // AUMENTADO PARA MELHOR DISTRIBUIÇÃO
 
-  const clamp = (val: number, min: number, max: number) => Math.max(min, Math.min(val, max))
   const position = (value: number) => ((value - min) / (max - min)) * height
 
   const posMax = height
-  const posCurrent = clamp(position(current), 40, posMax - 40)
+  const posCurrent = position(current)
   const posMin = 0
 
-  const textStyle = "absolute left-1/2 -translate-x-1/2 text-sm font-semibold drop-shadow-lg"
+  const labelStyle = "absolute left-1/2 -translate-x-1/2 text-sm font-semibold drop-shadow-lg"
 
   return (
     <div className="flex flex-col items-center my-6 w-full">
       <h3 className="text-xl font-bold mb-4">{asset} - {date}</h3>
-      <div className="relative bg-gray-700 w-1" style={{ height }}>
+      <div className="relative bg-gray-700 w-1 rounded" style={{ height }}>
 
-        <div className={`${textStyle} text-green-300`} style={{ bottom: `${posMax}px` }}>
+        <div className={`${labelStyle} text-green-300`} style={{ bottom: `${posMax}px`, marginBottom: '20px' }}>
           ● {max.toFixed(5)} (+{changeFromMax}%)
         </div>
 
-        <div className={`${textStyle} text-white`} style={{ bottom: `${posCurrent}px` }}>
+        <div className={`${labelStyle} text-white`} style={{ bottom: `${posCurrent}px`, marginBottom: '20px' }}>
           ● {current.toFixed(5)} ({changeFromOpen}%)
         </div>
 
-        <div className={`${textStyle} text-red-400`} style={{ bottom: `${posMin}px` }}>
+        <div className={`${labelStyle} text-red-400`} style={{ bottom: `${posMin}px`, marginTop: '20px' }}>
           ● {min.toFixed(5)} ({changeFromMin}%)
         </div>
       </div>
