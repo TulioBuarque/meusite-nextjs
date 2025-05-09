@@ -21,11 +21,15 @@ export function DailyRangeIndicator({
   changeFromMin,
   changeFromMax,
 }: Props) {
-  const height = 600 // AUMENTADO PARA MELHOR DISTRIBUIÇÃO
+  const fullHeight = 600
 
-  const position = (value: number) => ((value - min) / (max - min)) * height
+  // Define uma faixa mínima simulada se o range for pequeno
+  const safeMin = min
+  const safeMax = Math.abs(max - min) < 0.01 ? min + 0.01 : max
 
-  const posMax = height
+  const position = (value: number) => ((value - safeMin) / (safeMax - safeMin)) * fullHeight
+
+  const posMax = fullHeight
   const posCurrent = position(current)
   const posMin = 0
 
@@ -34,7 +38,7 @@ export function DailyRangeIndicator({
   return (
     <div className="flex flex-col items-center my-6 w-full">
       <h3 className="text-xl font-bold mb-4">{asset} - {date}</h3>
-      <div className="relative bg-gray-700 w-1 rounded" style={{ height }}>
+      <div className="relative bg-gray-700 w-1 rounded" style={{ height: fullHeight }}>
 
         <div className={`${labelStyle} text-green-300`} style={{ bottom: `${posMax}px`, marginBottom: '20px' }}>
           ● {max.toFixed(5)} (+{changeFromMax}%)
