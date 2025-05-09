@@ -1,6 +1,6 @@
 'use client'
 
-import { AssetTabs } from '@/components/AssetTabs'
+import AssetTabs from '@/components/AssetTabs'
 
 export default function DashboardPage() {
   return (
