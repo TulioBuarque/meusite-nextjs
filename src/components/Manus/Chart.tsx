@@ -1,3 +1,5 @@
-export default function ChartComponent({ asset }: { asset: string }) {
-  return <div>📈 Chart for {asset}</div>
+import React from 'react';
+
+export default function ChartComponent() {
+  return <div className="bg-blue-800 p-4 rounded">[ Gráfico Simulado ]</div>;
 }
