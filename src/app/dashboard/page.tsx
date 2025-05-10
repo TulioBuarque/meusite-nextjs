@@ -8,18 +8,18 @@ import CardAlerta from '@/components/CardAlerta'
 
 export default function DashboardPage() {
   return (
-    <main className="p-4">
-      <h1 className="text-2xl mb-4">Dashboard Forex</h1>
+    <main className="min-h-screen bg-gray-900 text-white p-6 space-y-8">
+      <h1 className="text-3xl font-bold mb-6">📊 ForexBlocks Dashboard</h1>
 
-      <IAMBlock valor={35} />
+      <IAMBlock iam={25} />
 
-      <KpiDispersao valor={1.8} />
+      <KpiDispersao dispersao={1.8} />
 
-      <ComparadorCandles candle30={12} candle1h={8} />
+      <ComparadorCandles candle30={30} candle1h={21} />
 
-      <DailyRangeIndicator range={55} />
+      <DailyRangeIndicator range={48} />
 
-      <CardAlerta mensagem="⚠️ Nenhum alerta no momento." />
+      <CardAlerta alerta="Exemplo de alerta exibido no dashboard" />
     </main>
   )
 }
