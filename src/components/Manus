@@ -1,3 +1,6 @@
 src/
  └── components/
       └── Manus/
+           ├── Alerts.tsx
+           ├── Chart.tsx
+           └── KPI.tsx
