@@ -1,8 +1,8 @@
 'use client'
 
-import { Alerts } from '@/components/Manus/Alerts'
-import { Chart } from '@/components/Manus/Chart'
-import { KPI } from '@/components/Manus/KPI'
+import { Alerts } from '../../components/Manus/Alerts'
+import { Chart } from '../../components/Manus/Chart'
+import { KPI } from '../../components/Manus/KPI'
 
 export default function DashboardPage() {
   return (
