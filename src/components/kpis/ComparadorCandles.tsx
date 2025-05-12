@@ -30,4 +30,26 @@ export function ComparadorCandles() {
 
       <div className="flex justify-between text-sm text-gray-300 px-2">
         <div className={isRompimento ? 'font-bold text-white' : 'text-gray-300'}>
-          30min: <span className="text-white
+          30min: <span className="text-white">{candle30} pips</span>
+        </div>
+        <div className={!isRompimento ? 'font-bold text-white' : 'text-gray-300'}>
+          1h: <span className="text-white">{candle1h} pips</span>
+        </div>
+      </div>
+
+      <div className="text-center mt-2">
+        {isRompimento ? (
+          <p className="text-red-400 text-sm flex justify-center items-center gap-2">
+            <ArrowUpRight className="w-4 h-4" />
+            Rompimento detectado (+{diff} pips)
+          </p>
+        ) : (
+          <p className="text-green-400 text-sm flex justify-center items-center gap-2">
+            <ArrowDownRight className="w-4 h-4" />
+            Estabilidade ou retração (-{diff} pips)
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
