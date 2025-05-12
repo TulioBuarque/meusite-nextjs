@@ -1,90 +1,35 @@
 'use client'
 
-import { useState } from 'react'
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { useTimeframeStore } from '@/store/useTimeframeStore'
 
-const mockData = {
-  title: "FED sinaliza possível aumento de juros",
-  sentiment: "Positivo",
-  points: {
-    '1M': [{ time: '1M', price: 1.1000 }],
-    '5M': [
-      { time: '1M', price: 1.1000 },
-      { time: '5M', price: 1.1012 },
-    ],
-    '15M': [
-      { time: '1M', price: 1.1000 },
-      { time: '5M', price: 1.1012 },
-      { time: '15M', price: 1.1005 },
-    ],
-    '30M': [
-      { time: '1M', price: 1.1000 },
-      { time: '5M', price: 1.1012 },
-      { time: '15M', price: 1.1005 },
-      { time: '30M', price: 1.1020 },
-    ],
-    '1H': [
-      { time: '1M', price: 1.1000 },
-      { time: '5M', price: 1.1012 },
-      { time: '15M', price: 1.1005 },
-      { time: '30M', price: 1.1020 },
-      { time: '1H', price: 1.1030 },
-    ],
-    '4H': [
-      { time: '1M', price: 1.1000 },
-      { time: '5M', price: 1.1012 },
-      { time: '15M', price: 1.1005 },
-      { time: '30M', price: 1.1020 },
-      { time: '1H', price: 1.1030 },
-      { time: '4H', price: 1.1002 },
-    ],
-    'D': [
-      { time: '1M', price: 1.1000 },
-      { time: '5M', price: 1.1012 },
-      { time: '15M', price: 1.1005 },
-      { time: '30M', price: 1.1020 },
-      { time: '1H', price: 1.1030 },
-      { time: '4H', price: 1.1002 },
-      { time: 'D', price: 1.0985 },
-    ]
-  }
+const mockImpactData: Record<string, { change: number; sentiment: 'Positivo' | 'Negativo' | 'Neutro' }> = {
+  '1M': { change: 0.02, sentiment: 'Neutro' },
+  '5M': { change: 0.12, sentiment: 'Positivo' },
+  '15M': { change: -0.18, sentiment: 'Negativo' },
+  '30M': { change: -0.05, sentiment: 'Neutro' },
+  '1H': { change: 0.20, sentiment: 'Positivo' },
+  '4H': { change: 0.08, sentiment: 'Neutro' },
+  'D': { change: -0.10, sentiment: 'Negativo' },
 }
 
-const periods = ['1M', '5M', '15M', '30M', '1H', '4H', 'D']
-
 export function NewsImpactKPI() {
-  const [selectedPeriod, setSelectedPeriod] = useState('D')
-  const data = mockData.points[selectedPeriod]
+  const timeframe = useTimeframeStore((state) => state.selectedTimeframe)
+  const { change, sentiment } = mockImpactData[timeframe]
 
   return (
-    <div className="bg-gray-800 p-6 rounded-xl shadow-xl w-full">
-      <h2 className="text-xl font-bold mb-2 text-white">🧠 News Impact</h2>
-      <p className="text-sm text-gray-300 mb-1">{mockData.title}</p>
-      <p className="text-sm text-green-400 mb-4">Sentimento AI: {mockData.sentiment}</p>
+    <div className="bg-gray-800 rounded-xl p-4 shadow-md w-full">
+      <h3 className="text-lg font-semibold mb-2 text-center">📰 Impacto de Notícias — {timeframe}</h3>
 
-      <ResponsiveContainer width="100%" height={250}>
-        <LineChart data={data}>
-          <XAxis dataKey="time" stroke="#ccc" />
-          <YAxis domain={['auto', 'auto']} stroke="#ccc" />
-          <Tooltip formatter={(value) => value.toFixed(5)} />
-          <Line type="monotone" dataKey="price" stroke="#10b981" dot={{ r: 6 }} activeDot={{ r: 8 }} />
-        </LineChart>
-      </ResponsiveContainer>
+      <p className="text-center text-sm text-gray-400 mb-2">
+        Notícia: <span className="text-white">"FED sinaliza possível aumento de juros"</span>
+      </p>
 
-      <div className="flex justify-center gap-2 mt-4 flex-wrap">
-        {periods.map((period) => (
-          <button
-            key={period}
-            onClick={() => setSelectedPeriod(period)}
-            className={`px-3 py-1 rounded text-sm font-medium border transition-all ${
-              selectedPeriod === period
-                ? 'bg-green-500 text-white border-green-600'
-                : 'bg-gray-700 text-gray-200 border-gray-600'
-            }`}
-          >
-            {period}
-          </button>
-        ))}
+      <div className="flex flex-col items-center gap-1">
+        <p className="text-xl font-bold">
+          Variação após {timeframe}: {change > 0 ? '+' : ''}
+          {(change * 100).toFixed(2)}%
+        </p>
+        <p className="text-sm text-gray-300">Sentimento: <span className="font-semibold">{sentiment}</span></p>
       </div>
     </div>
   )
