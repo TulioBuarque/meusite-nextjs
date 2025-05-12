@@ -1,34 +1,40 @@
 'use client'
 
+import { TimeframeSelector } from '@/components/TimeframeSelector'
 import { ComparadorCandles } from '@/components/kpis/ComparadorCandles'
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator'
 import { CardAlerta } from '@/components/kpis/CardAlerta'
 import { NewsImpactKPI } from '@/components/kpis/NewsImpactKPI'
 import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks'
-import { TimeframeSelector } from '@/components/TimeframeSelector'
 
 export default function DashboardPage() {
-  const mockData = [
-    { time: '1M', pips: 3 },
-    { time: '5M', pips: 7 },
-    { time: '15M', pips: 12 },
-    { time: '30M', pips: 9 },
-    { time: '1H', pips: 18 },
-    { time: '4H', pips: 22 },
-    { time: 'D', pips: 35 },
-  ]
-
   return (
     <main className="min-h-screen bg-gray-900 text-white p-6 space-y-8">
       <h1 className="text-3xl font-bold mb-6">📊 ForexBlocks Dashboard</h1>
 
       <TimeframeSelector />
 
-      <ComparadorCandles candle30={30} candle1h={21} />
-      <DailyRangeIndicator range={48} />
-      <CardAlerta alerta="Exemplo de alerta exibido no dashboard" />
-      <NewsImpactKPI />
-      <PipVariationTimeBlocks data={mockData} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="bg-gray-800 rounded-xl p-4 shadow-md">
+          <ComparadorCandles />
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-4 shadow-md">
+          <DailyRangeIndicator />
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-4 shadow-md">
+          <CardAlerta alerta="Exemplo de alerta exibido no dashboard" />
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-4 shadow-md">
+          <NewsImpactKPI />
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-4 shadow-md">
+          <PipVariationTimeBlocks />
+        </div>
+      </div>
     </main>
   )
 }
