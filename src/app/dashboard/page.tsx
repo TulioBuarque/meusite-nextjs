@@ -5,6 +5,7 @@ import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator'
 import { CardAlerta } from '@/components/kpis/CardAlerta'
 import { NewsImpactKPI } from '@/components/kpis/NewsImpactKPI'
 import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks'
+import { TimeframeSelector } from '@/components/TimeframeSelector'
 
 export default function DashboardPage() {
   const mockData = [
@@ -20,6 +21,8 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-gray-900 text-white p-6 space-y-8">
       <h1 className="text-3xl font-bold mb-6">📊 ForexBlocks Dashboard</h1>
+
+      <TimeframeSelector />
 
       <ComparadorCandles candle30={30} candle1h={21} />
       <DailyRangeIndicator range={48} />
