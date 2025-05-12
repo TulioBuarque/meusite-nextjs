@@ -3,6 +3,7 @@
 import { ComparadorCandles } from '@/components/kpis/ComparadorCandles'
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator'
 import { CardAlerta } from '@/components/kpis/CardAlerta'
+import { NewsImpactKPI } from '@/components/kpis/NewsImpactKPI'
 import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks'
 
 export default function DashboardPage() {
@@ -23,6 +24,7 @@ export default function DashboardPage() {
       <ComparadorCandles candle30={30} candle1h={21} />
       <DailyRangeIndicator range={48} />
       <CardAlerta alerta="Exemplo de alerta exibido no dashboard" />
+      <NewsImpactKPI />
       <PipVariationTimeBlocks data={mockData} />
     </main>
   )
