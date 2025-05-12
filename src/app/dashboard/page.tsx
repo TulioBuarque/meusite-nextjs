@@ -1,10 +1,10 @@
 'use client'
 
-import IAMBlock from '@/components/kpis/IAMBlock'
-import KpiDispersao from '@/components/kpis/KpiDispersao'
-import ComparadorCandles from '@/components/kpis/ComparadorCandles'
-import DailyRangeIndicator from '@/components/kpis/DailyRangeIndicator'
-import CardAlerta from '@/components/kpis/CardAlerta'
+import { IAMBlock } from '@/components/kpis/IAMBlock'
+import { KpiDispersao } from '@/components/kpis/KpiDispersao'
+import { ComparadorCandles } from '@/components/kpis/ComparadorCandles'
+import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator'
+import { CardAlerta } from '@/components/kpis/CardAlerta'
 
 export default function DashboardPage() {
   return (
