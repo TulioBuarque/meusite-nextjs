@@ -1,10 +1,10 @@
 'use client'
 
-import IAMBlock from '@/components/IAMBlock'
-import KpiDispersao from '@/components/KpiDispersao'
-import ComparadorCandles from '@/components/ComparadorCandles'
-import DailyRangeIndicator from '@/components/DailyRangeIndicator'
-import CardAlerta from '@/components/CardAlerta'
+import IAMBlock from '@/components/kpis/IAMBlock'
+import KpiDispersao from '@/components/kpis/KpiDispersao'
+import ComparadorCandles from '@/components/kpis/ComparadorCandles'
+import DailyRangeIndicator from '@/components/kpis/DailyRangeIndicator'
+import CardAlerta from '@/components/kpis/CardAlerta'
 
 export default function DashboardPage() {
   return (
@@ -12,13 +12,9 @@ export default function DashboardPage() {
       <h1 className="text-3xl font-bold mb-6">📊 ForexBlocks Dashboard</h1>
 
       <IAMBlock iam={25} />
-
       <KpiDispersao dispersao={1.8} />
-
       <ComparadorCandles candle30={30} candle1h={21} />
-
       <DailyRangeIndicator range={48} />
-
       <CardAlerta alerta="Exemplo de alerta exibido no dashboard" />
     </main>
   )
