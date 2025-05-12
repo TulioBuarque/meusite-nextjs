@@ -3,6 +3,7 @@
 import { ComparadorCandles } from '@/components/kpis/ComparadorCandles'
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator'
 import { CardAlerta } from '@/components/kpis/CardAlerta'
+import { NewsImpactKPI } from '@/components/kpis/NewsImpactKPI'
 
 export default function DashboardPage() {
   return (
@@ -12,6 +13,7 @@ export default function DashboardPage() {
       <ComparadorCandles candle30={30} candle1h={21} />
       <DailyRangeIndicator range={48} />
       <CardAlerta alerta="Exemplo de alerta exibido no dashboard" />
+      <NewsImpactKPI />
     </main>
   )
 }
