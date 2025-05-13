@@ -2,6 +2,20 @@
 
 import { useTimeframeStore } from '@/store/useTimeframeStore'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+import { format, subDays, isWeekend } from 'date-fns'
+
+// Função para gerar as últimas N datas úteis (segunda a sexta)
+const generateBusinessDates = (count: number) => {
+  const dates = []
+  let date = new Date()
+  while (dates.length < count) {
+    if (!isWeekend(date)) {
+      dates.push(format(date, 'yyyy-MM-dd'))
+    }
+    date = subDays(date, 1)
+  }
+  return dates
+}
 
 // Gerador de horários simulados
 const generateTimeLabels = (startHour: number, intervalMinutes: number, count: number) => {
@@ -15,22 +29,25 @@ const generateTimeLabels = (startHour: number, intervalMinutes: number, count: n
   return times
 }
 
-// Gerador de dados com valores positivos e negativos
-const generateMockData = (startHour: number, intervalMinutes: number) =>
-  generateTimeLabels(startHour, intervalMinutes, 10).map(time => ({
+// Gerador de dados simulados
+const generateMockData = (startHour: number, intervalMinutes: number, count: number = 10) =>
+  generateTimeLabels(startHour, intervalMinutes, count).map(time => ({
     time,
-    pips: Math.floor(Math.random() * 20 - 10), // De -10 a +10
+    pips: Math.floor(Math.random() * 20 - 10),
   }))
 
-// Mapeamento de dados simulados para todos os timeframes
+// Aplicação das regras para cada timeframe
 const mockContinuousData = {
   '1M': generateMockData(9, 1),
   '5M': generateMockData(9, 5),
   '15M': generateMockData(9, 15),
   '30M': generateMockData(9, 30),
   '1H': generateMockData(9, 60),
-  '4H': generateMockData(0, 240),
-  'D': generateMockData(0, 1440),
+  '4H': generateMockData(9, 240),
+  'D': generateBusinessDates(10).map(date => ({
+    time: date,
+    pips: Math.floor(Math.random() * 20 - 10),
+  })),
 }
 
 export function PipVariationTimeBlocks() {
