@@ -31,16 +31,16 @@ export function DailyRangeIndicator() {
   const labelStyle = "absolute left-1/2 -translate-x-1/2 text-sm font-semibold drop-shadow-lg"
 
   return (
-    <div className="flex flex-col items-center my-6 w-full">
-      <h3 className="text-xl font-bold mb-4">{asset} - {date} ({timeframe})</h3>
-      <div className="relative bg-gray-700 w-1 rounded" style={{ height: '60vh', maxHeight: '80vh' }}>
-        <div className={`${labelStyle} text-green-300`} style={{ bottom: `${posMax}%`, marginBottom: '10px' }}>
+    <div className="flex flex-col items-center my-6 w-full max-w-xs mx-auto bg-gray-800 rounded-xl shadow-lg p-4 border border-gray-700">
+      <h3 className="text-lg font-semibold mb-2 text-center">{asset} - {date} ({timeframe})</h3>
+      <div className="relative bg-gray-700 w-4 rounded-full transition-all duration-500" style={{ height: '60vh', maxHeight: '80vh' }}>
+        <div className={`${labelStyle} text-green-300`} style={{ bottom: `${posMax}%`, marginBottom: '12px' }}>
           ● {max.toFixed(5)} (+{changeFromMax}%)
         </div>
-        <div className={`${labelStyle} text-white`} style={{ bottom: `${posCurrent}%`, marginBottom: '10px' }}>
+        <div className={`${labelStyle} text-white`} style={{ bottom: `${posCurrent}%`, marginBottom: '12px' }}>
           ● {current.toFixed(5)} ({changeFromOpen}%)
         </div>
-        <div className={`${labelStyle} text-red-400`} style={{ bottom: `${posMin}%`, marginTop: '10px' }}>
+        <div className={`${labelStyle} text-red-400`} style={{ bottom: `${posMin}%`, marginTop: '12px' }}>
           ● {min.toFixed(5)} ({changeFromMin}%)
         </div>
       </div>
