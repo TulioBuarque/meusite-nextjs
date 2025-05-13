@@ -3,6 +3,7 @@
 import Sidebar from '@/components/ui/Sidebar';
 import { TimeframeSelector } from '@/components/TimeframeSelector';
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator';
+import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks';
 import { ThemeToggleButton } from '@/components/ThemeToggleButton';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -38,6 +39,7 @@ export default function DashboardPage() {
                   changeFromMin={0.0080}
                   changeFromMax={-0.0070}
                 />
+                <PipVariationTimeBlocks />
               </div>
             </TabsContent>
 
@@ -55,6 +57,7 @@ export default function DashboardPage() {
                   changeFromMin={0.70}
                   changeFromMax={-0.60}
                 />
+                <PipVariationTimeBlocks />
               </div>
             </TabsContent>
           </Tabs>
