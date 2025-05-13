@@ -5,7 +5,7 @@ import { TimeframeSelector } from '@/components/TimeframeSelector';
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator';
 import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks';
 import { ThemeToggleButton } from '@/components/ThemeToggleButton';
-import { ThemeProvider } from '@/components/theme-provider'; // ✅ IMPORTAÇÃO ADICIONADA
+import { ThemeProvider } from '@/components/theme-provider';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 export default function DashboardPage() {
@@ -25,22 +25,24 @@ export default function DashboardPage() {
               <TabsTrigger value="dxy">DXY</TabsTrigger>
             </TabsList>
 
+            {/* EUR/USD Tab */}
             <TabsContent value="eurusd" className="space-y-6">
               <TimeframeSelector />
-              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm">
+              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full">
                 <DailyRangeIndicator />
               </div>
-              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm">
+              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full">
                 <PipVariationTimeBlocks />
               </div>
             </TabsContent>
 
+            {/* DXY Tab */}
             <TabsContent value="dxy" className="space-y-6">
               <TimeframeSelector />
-              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm">
+              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full">
                 <DailyRangeIndicator />
               </div>
-              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm">
+              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full">
                 <PipVariationTimeBlocks />
               </div>
             </TabsContent>
