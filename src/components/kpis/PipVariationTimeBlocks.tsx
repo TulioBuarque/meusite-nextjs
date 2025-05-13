@@ -3,49 +3,20 @@
 import { useTimeframeStore } from '@/store/useTimeframeStore'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
+const generateMockData = (label: string) =>
+  Array.from({ length: 10 }, (_, i) => ({
+    time: `${label}-${1000 + i}`,
+    pips: Math.floor(Math.random() * 10) + 1,
+  }))
+
 const mockContinuousData: Record<string, { time: string; pips: number }[]> = {
-  '1M': [
-    { time: '09:00', pips: 2 },
-    { time: '09:01', pips: 3 },
-    { time: '09:02', pips: 4 },
-    { time: '09:03', pips: 3 },
-    { time: '09:04', pips: 5 },
-  ],
-  '5M': [
-    { time: '09:00', pips: 7 },
-    { time: '09:05', pips: 9 },
-    { time: '09:10', pips: 6 },
-    { time: '09:15', pips: 8 },
-    { time: '09:20', pips: 10 },
-  ],
-  '15M': [
-    { time: '09:00', pips: 12 },
-    { time: '09:15', pips: 15 },
-    { time: '09:30', pips: 13 },
-    { time: '09:45', pips: 17 },
-  ],
-  '30M': [
-    { time: '09:00', pips: 18 },
-    { time: '09:30', pips: 20 },
-    { time: '10:00', pips: 22 },
-  ],
-  '1H': [
-    { time: '09:00', pips: 25 },
-    { time: '10:00', pips: 27 },
-    { time: '11:00', pips: 30 },
-  ],
-  '4H': [
-    { time: '08:00', pips: 28 },
-    { time: '12:00', pips: 35 },
-    { time: '16:00', pips: 33 },
-  ],
-  'D': [
-    { time: 'Seg', pips: 30 },
-    { time: 'Ter', pips: 32 },
-    { time: 'Qua', pips: 28 },
-    { time: 'Qui', pips: 35 },
-    { time: 'Sex', pips: 37 },
-  ],
+  '1M': generateMockData('1M'),
+  '5M': generateMockData('5M'),
+  '15M': generateMockData('15M'),
+  '30M': generateMockData('30M'),
+  '1H': generateMockData('1H'),
+  '4H': generateMockData('4H'),
+  'D': generateMockData('D'),
 }
 
 export function PipVariationTimeBlocks() {
