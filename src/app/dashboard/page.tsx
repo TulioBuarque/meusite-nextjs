@@ -29,7 +29,16 @@ export default function DashboardPage() {
             <TabsContent value="eurusd" className="space-y-6">
               <TimeframeSelector />
               <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full space-y-6">
-                <DailyRangeIndicator />
+                <DailyRangeIndicator
+                  asset="EUR/USD"
+                  date="2025-05-12"
+                  min={1.0750}
+                  max={1.0850}
+                  current={1.0800}
+                  changeFromOpen={0.0025}
+                  changeFromMin={0.0050}
+                  changeFromMax={-0.0025}
+                />
                 <PipVariationTimeBlocks />
               </div>
             </TabsContent>
@@ -38,7 +47,16 @@ export default function DashboardPage() {
             <TabsContent value="dxy" className="space-y-6">
               <TimeframeSelector />
               <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full space-y-6">
-                <DailyRangeIndicator />
+                <DailyRangeIndicator
+                  asset="DXY"
+                  date="2025-05-12"
+                  min={104.50}
+                  max={105.25}
+                  current={104.95}
+                  changeFromOpen={0.20}
+                  changeFromMin={0.45}
+                  changeFromMax={-0.30}
+                />
                 <PipVariationTimeBlocks />
               </div>
             </TabsContent>
