@@ -8,23 +8,29 @@ import { ThemeToggleButton } from '@/components/ThemeToggleButton';
 
 export default function DashboardPage() {
   return (
-    <div className="flex">
+    <div className="flex bg-gray-950 min-h-screen">
       <Sidebar />
 
-      <main className="ml-64 min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white p-6 space-y-8 w-full">
-        <div className="flex justify-between items-center mb-6">
+      <main className="ml-64 flex-1 p-8 text-white space-y-8">
+        <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">📊 ForexBlocks Dashboard</h1>
           <ThemeToggleButton />
         </div>
 
         <TimeframeSelector />
 
-        <h2 className="text-2xl font-semibold mb-4">Análises Técnicas</h2>
+        <section className="space-y-6">
+          <h2 className="text-2xl font-semibold">Análises Técnicas</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-          <DailyRangeIndicator />
-          <PipVariationTimeBlocks />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gray-800 rounded-lg border border-gray-700 p-4 shadow-sm">
+              <DailyRangeIndicator />
+            </div>
+            <div className="bg-gray-800 rounded-lg border border-gray-700 p-4 shadow-sm">
+              <PipVariationTimeBlocks />
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
