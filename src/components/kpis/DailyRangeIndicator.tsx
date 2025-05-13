@@ -1,43 +1,52 @@
-'use client'
+'use client';
 
-const mockPriceData = {
-  asset: 'EUR/USD',
-  date: '2025-05-12',
-  min: 1.0940,
-  max: 1.1070,
-  current: 1.1050,
-  changeFromOpen: 0.50,
-  changeFromMin: 11.00,
-  changeFromMax: -2.00,
+interface Props {
+  asset: string;
+  date: string;
+  min: number;
+  max: number;
+  current: number;
+  changeFromOpen: number;
+  changeFromMin: number;
+  changeFromMax: number;
 }
 
-export function DailyRangeIndicator() {
-  const { asset, date, min, max, current, changeFromOpen, changeFromMin, changeFromMax } = mockPriceData
+export function DailyRangeIndicator({
+  asset,
+  date,
+  min,
+  max,
+  current,
+  changeFromOpen,
+  changeFromMin,
+  changeFromMax,
+}: Props) {
+  const safeMin = min;
+  const safeMax = Math.abs(max - min) < 0.01 ? min + 0.01 : max;
 
-  const safeMin = min
-  const safeMax = Math.abs(max - min) < 0.01 ? min + 0.01 : max
+  const position = (value: number) => {
+    const raw = ((value - safeMin) / (safeMax - safeMin)) * 80 + 10;
+    return Math.max(10, Math.min(raw, 90));
+  };
 
-  const position = (value: number) => ((value - safeMin) / (safeMax - safeMin)) * 80 + 10
-
-  const points = [
-    { value: max, change: changeFromMax, label: 'text-green-300' },
-    { value: current, change: changeFromOpen, label: 'text-white' },
-    { value: min, change: changeFromMin, label: 'text-red-400' },
-  ].sort((a, b) => position(b.value) - position(a.value))
+  const posMax = 90;
+  const posCurrent = position(current);
 
   return (
-    <div className="flex flex-col items-center my-6 w-full max-w-xs mx-auto bg-gray-800 rounded-xl shadow-lg p-4 border border-gray-700">
-      <h3 className="text-lg font-semibold mb-2 text-center">{asset} - {date}</h3>
-      <div className="relative bg-gray-700 w-4 rounded-full transition-all duration-500" style={{ height: '45vh', maxHeight: '60vh' }}>
-        {points.map((p, index) => (
-          <div key={index}
-            className={`absolute left-1/2 -translate-x-1/2 text-sm font-semibold drop-shadow-lg ${p.label}`}
-            style={{ bottom: `${position(p.value)}%`, marginBottom: '4px' }}
-          >
-            ● {p.value.toFixed(5)} ({p.change > 0 ? '+' : ''}{p.change}%)
-          </div>
-        ))}
+    <div className="flex flex-col items-center my-6 w-full mx-auto bg-gray-800 rounded-xl shadow-lg p-4 border border-gray-700">
+      <h2 className="text-lg font-semibold mb-2">{asset} - {date}</h2>
+      <div className="relative w-full h-24 bg-gray-700 rounded overflow-hidden">
+        <div className="absolute left-0 top-0 bottom-0 bg-green-500" style={{ left: `${posMax}%`, width: '2px' }} />
+        <div className="absolute left-0 top-0 bottom-0 bg-blue-500" style={{ left: `${posCurrent}%`, width: '2px' }} />
+      </div>
+      <div className="mt-2 text-sm">
+        <div>Min: {min}</div>
+        <div>Max: {max}</div>
+        <div>Current: {current}</div>
+        <div>Change from Open: {changeFromOpen}</div>
+        <div>Change from Min: {changeFromMin}</div>
+        <div>Change from Max: {changeFromMax}</div>
       </div>
     </div>
-  )
+  );
 }
