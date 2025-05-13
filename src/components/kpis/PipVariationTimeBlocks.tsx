@@ -1,7 +1,7 @@
 'use client'
 
 import { useTimeframeStore } from '@/store/useTimeframeStore'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 
 const generateTimeLabels = (startHour: number, intervalMinutes: number, count: number) => {
   const times = []
@@ -17,7 +17,7 @@ const generateTimeLabels = (startHour: number, intervalMinutes: number, count: n
 const generateMockData = (startHour: number, intervalMinutes: number) =>
   generateTimeLabels(startHour, intervalMinutes, 10).map(time => ({
     time,
-    pips: Math.floor(Math.random() * 20 - 10), // Gera entre -10 e +10
+    pips: Math.floor(Math.random() * 20 - 10), // Valores de -10 a +10
   }))
 
 const mockContinuousData = {
@@ -37,7 +37,7 @@ export function PipVariationTimeBlocks() {
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-center">📊 Variação de Pips — {timeframe}</h3>
-      <p className="text-center text-sm text-gray-400">Variação contínua, incluindo ganhos e perdas.</p>
+      <p className="text-center text-sm text-gray-400">Variações positivas (verde) e negativas (vermelho).</p>
       <div className="bg-gray-700 rounded-lg p-2">
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={data}>
@@ -49,7 +49,11 @@ export function PipVariationTimeBlocks() {
               labelStyle={{ color: '#fff' }}
               formatter={(value: number) => [`${value} pips`, 'Variação']}
             />
-            <Bar dataKey="pips" fill="#10b981" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="pips">
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.pips >= 0 ? '#10b981' : '#ef4444'} />
+              ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
