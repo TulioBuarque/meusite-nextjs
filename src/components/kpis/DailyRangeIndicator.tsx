@@ -14,35 +14,21 @@ const mockPriceData: Record<string, { asset: string; date: string; min: number; 
 
 export function DailyRangeIndicator() {
   const timeframe = useTimeframeStore((state) => state.selectedTimeframe)
-  const { asset, date, min, max, current, changeFromOpen, changeFromMin, changeFromMax } = mockPriceData[timeframe]
+  const { asset, date, min, max, current, changeFromOpen } = mockPriceData[timeframe]
 
-  const safeMin = min
-  const safeMax = Math.abs(max - min) < 0.01 ? min + 0.01 : max
-
-  const position = (value: number) => {
-    const raw = ((value - safeMin) / (safeMax - safeMin)) * 80 + 10
-    return Math.max(10, Math.min(raw, 90))
-  }
-
-  const posMax = 90
-  const posCurrent = position(current)
-  const posMin = 10
-
-  const labelStyle = "absolute left-1/2 -translate-x-1/2 text-sm font-semibold drop-shadow-lg"
+  const progress = ((current - min) / (max - min)) * 100
 
   return (
-    <div className="flex flex-col items-center my-6 w-full">
-      <h3 className="text-xl font-bold mb-4">{asset} - {date} ({timeframe})</h3>
-      <div className="relative bg-gray-700 w-1 rounded" style={{ height: '70vh', maxHeight: '85vh' }}>
-        <div className={`${labelStyle} text-green-300`} style={{ bottom: `${posMax}%`, marginBottom: '10px' }}>
-          ● {max.toFixed(5)} (+{changeFromMax}%)
-        </div>
-        <div className={`${labelStyle} text-white`} style={{ bottom: `${posCurrent}%`, marginBottom: '10px' }}>
-          ● {current.toFixed(5)} ({changeFromOpen}%)
-        </div>
-        <div className={`${labelStyle} text-red-400`} style={{ bottom: `${posMin}%`, marginTop: '10px' }}>
-          ● {min.toFixed(5)} ({changeFromMin}%)
-        </div>
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold text-center">{asset} - {date} ({timeframe})</h3>
+      <p className="text-center text-sm text-gray-400">
+        Min: {min.toFixed(5)} | Max: {max.toFixed(5)} | Atual: {current.toFixed(5)} ({changeFromOpen > 0 ? '+' : ''}{changeFromOpen}%)
+      </p>
+      <div className="relative w-full bg-gray-700 rounded-full h-4">
+        <div
+          className="bg-green-500 h-4 rounded-full transition-all"
+          style={{ width: `${progress}%` }}
+        ></div>
       </div>
     </div>
   )
