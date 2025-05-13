@@ -1,19 +1,27 @@
 'use client'
 
-import { useTimeframeStore } from '@/store/useTimeframeStore'
+import { useTimeframeStore, Timeframe } from '@/store/useTimeframeStore'
 
-const timeframes = ['1M', '5M', '15M', '30M', '1H', '4H', 'D'] as const
+const VALID_TIMEFRAMES: Timeframe[] = ['1M', '5M', '15M', '30M', '1H', '4H', 'D']
 
 export function TimeframeSelector() {
   const selectedTimeframe = useTimeframeStore((state) => state.selectedTimeframe)
   const setTimeframe = useTimeframeStore((state) => state.setTimeframe)
 
+  const handleSelect = (timeframe: Timeframe) => {
+    if (VALID_TIMEFRAMES.includes(timeframe)) {
+      setTimeframe(timeframe)
+    } else {
+      console.warn(`Tentativa de selecionar timeframe inválido: ${timeframe}`)
+    }
+  }
+
   return (
     <div className="flex flex-wrap gap-2 mb-4">
-      {timeframes.map((tf) => (
+      {VALID_TIMEFRAMES.map((tf) => (
         <button
           key={tf}
-          onClick={() => setTimeframe(tf)}
+          onClick={() => handleSelect(tf)}
           className={`px-3 py-1 rounded-md border ${
             selectedTimeframe === tf
               ? 'bg-green-500 text-white border-green-500'
