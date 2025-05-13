@@ -14,27 +14,34 @@ const mockDataMap: Record<string, { time: string; pips: number }[]> = {
 }
 
 export function PipVariationTimeBlocks() {
-  const selectedTimeframe = useTimeframeStore((state) => state.selectedTimeframe)
-  const data = mockDataMap[selectedTimeframe]
+  const timeframe = useTimeframeStore((state) => state.selectedTimeframe)
+  const data = mockDataMap[timeframe]
 
   return (
-    <div className="w-full h-72 bg-gray-800 rounded-xl p-4 shadow-md">
-      <h3 className="text-lg font-semibold mb-4 text-center">
-        📊 Variação de Pips — {selectedTimeframe}
-      </h3>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-          <XAxis dataKey="time" stroke="#ccc" />
-          <YAxis stroke="#ccc" />
-          <Tooltip
-            contentStyle={{ backgroundColor: '#333', border: 'none' }}
-            labelStyle={{ color: '#fff' }}
-            formatter={(value: number) => [`${value} pips`, 'Variação']}
-          />
-          <Bar dataKey="pips" fill="#10b981" radius={[4, 4, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold text-center">📊 Variação de Pips — {timeframe}</h3>
+      <p className="text-center text-sm text-gray-400">
+        Mostrando a variação registrada no período selecionado.
+      </p>
+      {data.length > 0 ? (
+        <div className="bg-gray-700 rounded-lg p-2">
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+              <XAxis dataKey="time" stroke="#ccc" />
+              <YAxis stroke="#ccc" />
+              <Tooltip
+                contentStyle={{ backgroundColor: '#333', border: 'none' }}
+                labelStyle={{ color: '#fff' }}
+                formatter={(value: number) => [`${value} pips`, 'Variação']}
+              />
+              <Bar dataKey="pips" fill="#10b981" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        <p className="text-center text-gray-500">Nenhuma variação registrada para {timeframe}.</p>
+      )}
     </div>
   )
 }
