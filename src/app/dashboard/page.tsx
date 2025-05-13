@@ -1,10 +1,7 @@
 'use client'
 
 import { TimeframeSelector } from '@/components/TimeframeSelector'
-import { ComparadorCandles } from '@/components/kpis/ComparadorCandles'
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator'
-import { CardAlerta } from '@/components/kpis/CardAlerta'
-import { NewsImpactKPI } from '@/components/kpis/NewsImpactKPI'
 import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks'
 
 export default function DashboardPage() {
@@ -16,19 +13,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         <div className="bg-gray-800 rounded-xl p-4 shadow-md">
-          <ComparadorCandles />
-        </div>
-
-        <div className="bg-gray-800 rounded-xl p-4 shadow-md">
           <DailyRangeIndicator />
-        </div>
-
-        <div className="bg-gray-800 rounded-xl p-4 shadow-md">
-          <CardAlerta alerta="Exemplo de alerta exibido no dashboard" />
-        </div>
-
-        <div className="bg-gray-800 rounded-xl p-4 shadow-md">
-          <NewsImpactKPI />
         </div>
 
         <div className="bg-gray-800 rounded-xl p-4 shadow-md">
