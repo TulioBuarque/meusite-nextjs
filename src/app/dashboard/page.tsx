@@ -1,6 +1,6 @@
 'use client';
 
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '@/components/ui/Sidebar';
 import { TimeframeSelector } from '@/components/TimeframeSelector';
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator';
 import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks';
