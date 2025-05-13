@@ -2,17 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Bell, Settings, BarChart2, Newspaper } from 'lucide-react';
+import { Home, Settings } from 'lucide-react';
 import Image from 'next/image';
 
 const Sidebar = () => {
   const pathname = usePathname();
 
   const navItems = [
+    { href: '/', label: 'Home', icon: Home },
     { href: '/dashboard', label: 'Dashboard', icon: Home },
-    { href: '/alerts', label: 'Alerts', icon: Bell },
-    { href: '/charts', label: 'Charts', icon: BarChart2 },
-    { href: '/news', label: 'News', icon: Newspaper },
     { href: '/settings', label: 'Settings', icon: Settings },
   ];
 
@@ -52,7 +50,6 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      {/* Trader Profile at Bottom */}
       <div className="flex items-center mt-auto pt-4 border-t border-blue-800">
         <Image
           src="https://via.placeholder.com/40"
@@ -69,5 +66,7 @@ const Sidebar = () => {
     </aside>
   );
 };
+
+export default Sidebar;
 
 export default Sidebar;
