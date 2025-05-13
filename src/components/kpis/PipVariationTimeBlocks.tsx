@@ -70,4 +70,13 @@ export function PipVariationTimeBlocks() {
                 labelStyle={{ color: '#fff' }}
                 formatter={(value: number) => [`${value} pips`, 'Variação']}
               />
-              <Bar dataKey="pips" fill="#10b981" radius
+              <Bar dataKey="pips" fill="#10b981" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        <p className="text-center text-gray-500">Nenhuma variação registrada para {timeframe}.</p>
+      )}
+    </div>
+  )
+}
