@@ -10,7 +10,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Edit, Trash2 } from 'lucide-react';
 
-// Mock data for alerts
+// Mock data
 const alertsData = [
   { id: 1, priority: 'high', status: 'active', pair: 'EUR/USD', condition: 'above', value: '1.0850' },
   { id: 2, priority: 'medium', status: 'active', pair: 'GBP/USD', condition: 'above', value: '1.2750' },
@@ -98,7 +98,7 @@ export default function AlertsPage() {
                             alert.status === 'triggered' ? 'bg-yellow-500/20 text-yellow-400' :
                             'bg-gray-500/20 text-gray-400'
                           }`}>
-                            {alert.status === 'active' ? 'Ativo' :
+                            {alert.status === 'active' ? 'Ativo' : 
                              alert.status === 'triggered' ? 'Disparado' : 'Inativo'}
                           </span>
                         </td>
