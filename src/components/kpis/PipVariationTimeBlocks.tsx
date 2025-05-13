@@ -61,7 +61,7 @@ export function PipVariationTimeBlocks() {
 
       {data.length > 0 ? (
         <div className="bg-gray-700 rounded-lg p-2">
-          <ResponsiveContainer width="100%" height={250}>
+          <ResponsiveContainer width="100%" height={350}>
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
               <XAxis dataKey="time" stroke="#ccc" />
