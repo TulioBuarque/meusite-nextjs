@@ -36,4 +36,30 @@ export default function DashboardPage() {
                   current={1.0780}
                   changeFromOpen={0.0005}
                   changeFromMin={0.0080}
-                  changeFromMax={
+                  changeFromMax={-0.0070}
+                />
+              </div>
+            </TabsContent>
+
+            {/* DXY Tab */}
+            <TabsContent value="dxy" className="space-y-6">
+              <TimeframeSelector />
+              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full space-y-6">
+                <DailyRangeIndicator
+                  asset="DXY"
+                  date={new Date().toISOString().split('T')[0]}
+                  min={104.50}
+                  max={105.80}
+                  current={105.20}
+                  changeFromOpen={0.20}
+                  changeFromMin={0.70}
+                  changeFromMax={-0.60}
+                />
+              </div>
+            </TabsContent>
+          </Tabs>
+        </main>
+      </div>
+    </ThemeProvider>
+  );
+}
