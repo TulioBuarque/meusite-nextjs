@@ -13,7 +13,7 @@ export default function AlertsPage() {
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <div className="flex min-h-screen bg-background text-foreground">
         <Sidebar />
-        <main className="ml-64 p-6 md:p-8 w-full space-y-8">
+        <main className="flex-1 p-6 md:p-8 space-y-8">
           <h1 className="text-3xl font-bold mb-4">📢 Alerts</h1>
 
           <Tabs defaultValue="all">
