@@ -6,6 +6,7 @@ import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator';
 import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks';
 import { ThemeToggleButton } from '@/components/ThemeToggleButton';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 export default function DashboardPage() {
   return (
@@ -19,20 +20,38 @@ export default function DashboardPage() {
             <ThemeToggleButton />
           </div>
 
-          <TimeframeSelector />
+          <Tabs defaultValue="eurusd">
+            <TabsList className="mb-6">
+              <TabsTrigger value="eurusd">EUR/USD</TabsTrigger>
+              <TabsTrigger value="dxy">DXY</TabsTrigger>
+            </TabsList>
 
-          <section className="space-y-6">
-            <h2 className="text-2xl font-semibold">Análises Técnicas</h2>
+            {/* EUR/USD Tab */}
+            <TabsContent value="eurusd" className="space-y-6">
+              <TimeframeSelector />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="rounded-lg border p-4 shadow-sm bg-card text-card-foreground">
+                  <DailyRangeIndicator />
+                </div>
+                <div className="rounded-lg border p-4 shadow-sm bg-card text-card-foreground">
+                  <PipVariationTimeBlocks />
+                </div>
+              </div>
+            </TabsContent>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="rounded-lg border p-4 shadow-sm bg-card text-card-foreground">
-                <DailyRangeIndicator />
+            {/* DXY Tab */}
+            <TabsContent value="dxy" className="space-y-6">
+              <TimeframeSelector />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="rounded-lg border p-4 shadow-sm bg-card text-card-foreground">
+                  <DailyRangeIndicator />
+                </div>
+                <div className="rounded-lg border p-4 shadow-sm bg-card text-card-foreground">
+                  <PipVariationTimeBlocks />
+                </div>
               </div>
-              <div className="rounded-lg border p-4 shadow-sm bg-card text-card-foreground">
-                <PipVariationTimeBlocks />
-              </div>
-            </div>
-          </section>
+            </TabsContent>
+          </Tabs>
         </main>
       </div>
     </ThemeProvider>
