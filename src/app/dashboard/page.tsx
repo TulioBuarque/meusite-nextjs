@@ -5,7 +5,7 @@ import { TimeframeSelector } from '@/components/TimeframeSelector';
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator';
 import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks';
 import { ThemeToggleButton } from '@/components/ThemeToggleButton';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/components/theme-provider'; // ✅ IMPORTAÇÃO ADICIONADA
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 export default function DashboardPage() {
