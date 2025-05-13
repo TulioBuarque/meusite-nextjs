@@ -3,20 +3,41 @@
 import { useTimeframeStore } from '@/store/useTimeframeStore'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
-const generateMockData = (label: string) =>
-  Array.from({ length: 10 }, (_, i) => ({
-    time: `${label}-${1000 + i}`,
+// Utilitário para gerar horários simulados
+const generateTimeLabels = (startHour: number, intervalMinutes: number, count: number) => {
+  const times = []
+  let currentHour = startHour
+  let currentMinute = 0
+
+  for (let i = 0; i < count; i++) {
+    const hourStr = String(currentHour).padStart(2, '0')
+    const minuteStr = String(currentMinute).padStart(2, '0')
+    times.push(`${hourStr}:${minuteStr}`)
+
+    currentMinute += intervalMinutes
+    if (currentMinute >= 60) {
+      currentMinute = currentMinute % 60
+      currentHour = (currentHour + 1) % 24
+    }
+  }
+
+  return times
+}
+
+const generateMockData = (label: string, startHour: number, intervalMinutes: number) =>
+  generateTimeLabels(startHour, intervalMinutes, 10).map(time => ({
+    time,
     pips: Math.floor(Math.random() * 10) + 1,
   }))
 
 const mockContinuousData: Record<string, { time: string; pips: number }[]> = {
-  '1M': generateMockData('1M'),
-  '5M': generateMockData('5M'),
-  '15M': generateMockData('15M'),
-  '30M': generateMockData('30M'),
-  '1H': generateMockData('1H'),
-  '4H': generateMockData('4H'),
-  'D': generateMockData('D'),
+  '1M': generateMockData('1M', 9, 1),    // 1 minuto de intervalo
+  '5M': generateMockData('5M', 9, 5),    // 5 minutos de intervalo
+  '15M': generateMockData('15M', 9, 15), // 15 minutos de intervalo
+  '30M': generateMockData('30M', 9, 30), // 30 minutos de intervalo
+  '1H': generateMockData('1H', 9, 60),   // 1 hora de intervalo
+  '4H': generateMockData('4H', 0, 240),  // 4 horas de intervalo
+  'D': generateMockData('D', 0, 1440),   // 1 dia de intervalo
 }
 
 export function PipVariationTimeBlocks() {
