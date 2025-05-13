@@ -1,77 +1,56 @@
 'use client';
 
-interface Props {
-  asset: string;
-  date: string;
-  min: number;
-  max: number;
-  current: number;
-  changeFromOpen: number;
-  changeFromMin: number;
-  changeFromMax: number;
-}
+import { useTimeframeStore } from '@/store/useTimeframeStore';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { format, subDays, isWeekend } from 'date-fns';
 
-export function DailyRangeIndicator({
-  asset,
-  date,
-  min,
-  max,
-  current,
-  changeFromOpen,
-  changeFromMin,
-  changeFromMax,
-}: Props) {
-  const safeMin = min;
-  const safeMax = Math.abs(max - min) < 0.01 ? min + 0.01 : max;
+const generateBusinessDates = (count: number) => {
+  const dates = [];
+  let date = new Date();
+  while (dates.length < count) {
+    if (!isWeekend(date)) {
+      dates.push(format(date, 'yyyy-MM-dd'));
+    }
+    date = subDays(date, 1);
+  }
+  return dates;
+};
 
-  const position = (value: number) => {
-    const raw = ((value - safeMin) / (safeMax - safeMin)) * 80 + 10;
-    return Math.max(10, Math.min(raw, 90));
-  };
+const generateTimeLabels = (startHour: number, intervalMinutes: number, count: number) => {
+  const times = [];
+  let hour = startHour, minute = 0;
+  for (let i = 0; i < count; i++) {
+    times.push(`${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`);
+    minute += intervalMinutes;
+    if (minute >= 60) { minute %= 60; hour = (hour + 1) % 24; }
+  }
+  return times;
+};
 
-  const posMax = 90;
-  const posCurrent = position(current);
-  const posMin = 10;
+const generateMockData = (startHour: number, intervalMinutes: number, count: number = 10) =>
+  generateTimeLabels(startHour, intervalMinutes, count).map(time => ({
+    time,
+    pips: Math.floor(Math.random() * 20 - 10),
+  }));
 
-  const pipsMax = ((safeMax - safeMin) * 10000).toFixed(1);
-  const pipsCurrent = ((current - safeMin) * 10000).toFixed(1);
+const mockContinuousData = {
+  '1M': generateMockData(9, 1),
+  '5M': generateMockData(9, 5),
+  '15M': generateMockData(9, 15),
+  '30M': generateMockData(9, 30),
+  '1H': generateMockData(9, 60),
+  '4H': generateMockData(9, 240),
+  'D': generateBusinessDates(10).map(date => ({
+    time: date,
+    pips: Math.floor(Math.random() * 20 - 10),
+  })),
+};
 
-  const percentageMax = '+100%';
-  const percentageCurrent = `${Math.round(((current - safeMin) / (safeMax - safeMin)) * 100)}%`;
+export function PipVariationTimeBlocks() {
+  const timeframe = useTimeframeStore((state) => state.selectedTimeframe);
+  const data = mockContinuousData[timeframe] || [];
 
   return (
-    <div className="bg-gray-800 rounded-lg p-4 w-full">
-      <h3 className="text-lg font-semibold mb-2">{asset} — {date}</h3>
-      <div className="relative h-80 flex justify-center">
-        <div className="w-1 bg-gray-600 h-full rounded"></div>
-        
-        {/* Max */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ bottom: `${posMax}%` }}
-        >
-          <div className="text-center text-green-400 text-sm mb-1">Max {pipsMax} pips {percentageMax}</div>
-          <div className="w-4 h-4 bg-green-400 rounded-full mx-auto"></div>
-        </div>
-
-        {/* Current */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ bottom: `${posCurrent}%` }}
-        >
-          <div className="text-center text-blue-400 text-sm mb-1">Now {pipsCurrent} pips {percentageCurrent}</div>
-          <div className="w-4 h-4 bg-blue-400 rounded-full mx-auto"></div>
-        </div>
-
-        {/* Min */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ bottom: `${posMin}%` }}
-        >
-          <div className="text-center text-red-400 text-sm mb-1">Min 0 pips 0%</div>
-          <div className="w-4 h-4 bg-red-400 rounded-full mx-auto"></div>
-        </div>
-      </div>
-    </div>
-  );
-}
+    <div className="space-y-4 w-full">
+      <h3 className="text-lg font-semibold text-center">📊 Variação de Pips — {timeframe}</h3>
+      <
