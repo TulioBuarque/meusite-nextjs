@@ -3,7 +3,6 @@
 import Sidebar from '@/components/ui/Sidebar';
 import { TimeframeSelector } from '@/components/TimeframeSelector';
 import { DailyRangeIndicator } from '@/components/kpis/DailyRangeIndicator';
-import { PipVariationTimeBlocks } from '@/components/kpis/PipVariationTimeBlocks';
 import { ThemeToggleButton } from '@/components/ThemeToggleButton';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -31,38 +30,10 @@ export default function DashboardPage() {
               <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full space-y-6">
                 <DailyRangeIndicator
                   asset="EUR/USD"
-                  date="2025-05-12"
-                  min={1.0750}
+                  date={new Date().toISOString().split('T')[0]}
+                  min={1.0700}
                   max={1.0850}
-                  current={1.0800}
-                  changeFromOpen={0.0025}
-                  changeFromMin={0.0050}
-                  changeFromMax={-0.0025}
-                />
-                <PipVariationTimeBlocks />
-              </div>
-            </TabsContent>
-
-            {/* DXY Tab */}
-            <TabsContent value="dxy" className="space-y-6">
-              <TimeframeSelector />
-              <div className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm w-full space-y-6">
-                <DailyRangeIndicator
-                  asset="DXY"
-                  date="2025-05-12"
-                  min={104.50}
-                  max={105.25}
-                  current={104.95}
-                  changeFromOpen={0.20}
-                  changeFromMin={0.45}
-                  changeFromMax={-0.30}
-                />
-                <PipVariationTimeBlocks />
-              </div>
-            </TabsContent>
-          </Tabs>
-        </main>
-      </div>
-    </ThemeProvider>
-  );
-}
+                  current={1.0780}
+                  changeFromOpen={0.0005}
+                  changeFromMin={0.0080}
+                  changeFromMax={
