@@ -53,4 +53,31 @@ export function PipVariationTimeBlocks() {
   return (
     <div className="space-y-4 w-full">
       <h3 className="text-lg font-semibold text-center">📊 Variação de Pips — {timeframe}</h3>
-      <
+      <p className="text-center text-sm text-gray-400">Variações positivas (verde) e negativas (vermelho).</p>
+
+      {data.length > 0 ? (
+        <div className="bg-gray-700 rounded-lg p-2">
+          <ResponsiveContainer width="100%" height={350}>
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+              <XAxis dataKey="time" stroke="#ccc" />
+              <YAxis stroke="#ccc" />
+              <Tooltip
+                contentStyle={{ backgroundColor: '#333', border: 'none' }}
+                labelStyle={{ color: '#fff' }}
+                formatter={(value: number) => [`${value} pips`, 'Variação']}
+              />
+              <Bar dataKey="pips">
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.pips >= 0 ? '#10b981' : '#ef4444'} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        <p className="text-center text-gray-500">Nenhuma variação registrada para {timeframe}.</p>
+      )}
+    </div>
+  );
+}
