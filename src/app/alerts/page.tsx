@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import Sidebar from '@/components/ui/Sidebar';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 export default function AlertsPage() {
   const [activeTab, setActiveTab] = useState('all');
@@ -14,23 +13,31 @@ export default function AlertsPage() {
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <div className="flex min-h-screen bg-background text-foreground">
         <Sidebar />
-        <main className="ml-64 flex-1 p-8 space-y-8">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold">📢 Alerts</h1>
-          </div>
+        <main className="ml-64 p-6 md:p-8 w-full space-y-8">
+          <h1 className="text-3xl font-bold mb-4">📢 Alerts</h1>
 
-          <Tabs defaultValue="all" className="mb-6">
-            <TabsList>
+          <Tabs defaultValue="all">
+            <TabsList className="mb-6">
               <TabsTrigger value="all" onClick={() => setActiveTab('all')}>Todos</TabsTrigger>
               <TabsTrigger value="active" onClick={() => setActiveTab('active')}>Ativos</TabsTrigger>
             </TabsList>
-          </Tabs>
 
-          <Card className="rounded-lg border p-4 shadow-sm bg-card text-card-foreground">
-            <CardContent>
-              <p>Nenhum alerta disponível.</p>
-            </CardContent>
-          </Card>
+            <TabsContent value="all" className="space-y-6">
+              <Card className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm">
+                <CardContent>
+                  <p>Nenhum alerta disponível.</p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="active" className="space-y-6">
+              <Card className="rounded-lg border p-4 bg-card text-card-foreground shadow-sm">
+                <CardContent>
+                  <p>Nenhum alerta ativo disponível.</p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </main>
       </div>
     </ThemeProvider>
