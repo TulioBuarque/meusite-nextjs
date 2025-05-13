@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import Sidebar from '@/components/sidebar';
+import Sidebar from '@/components/ui/Sidebar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -25,7 +25,6 @@ export default function SettingsPage() {
   const [density, setDensity] = useState('comfortable');
 
   const handleSave = () => {
-    // In a real app, this would save to backend
     console.log('Settings saved:', {
       name,
       email,
@@ -37,7 +36,6 @@ export default function SettingsPage() {
       theme,
       density
     });
-    // Show success message
     alert('Configurações salvas com sucesso!');
   };
 
@@ -46,7 +44,6 @@ export default function SettingsPage() {
       <div className="flex min-h-screen bg-background text-foreground">
         <Sidebar />
         <main className="flex-1 p-6 md:p-8">
-          {/* Header */}
           <header className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">Configurações</h1>
             <div className="flex items-center space-x-4">
@@ -58,7 +55,6 @@ export default function SettingsPage() {
             </div>
           </header>
 
-          {/* Settings Tabs */}
           <Tabs defaultValue="profile" className="mb-6">
             <TabsList className="mb-6">
               <TabsTrigger value="profile">Perfil</TabsTrigger>
@@ -67,7 +63,6 @@ export default function SettingsPage() {
               <TabsTrigger value="appearance">Aparência</TabsTrigger>
             </TabsList>
 
-            {/* Profile Tab */}
             <TabsContent value="profile">
               <Card>
                 <CardHeader>
@@ -76,28 +71,15 @@ export default function SettingsPage() {
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="name">Nome</Label>
-                    <Input 
-                      id="name" 
-                      value={name} 
-                      onChange={(e) => setName(e.target.value)} 
-                    />
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      value={email} 
-                      onChange={(e) => setEmail(e.target.value)} 
-                    />
+                    <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password">Senha</Label>
-                    <Input 
-                      id="password" 
-                      type="password" 
-                      placeholder="••••••••" 
-                    />
+                    <Input id="password" type="password" placeholder="••••••••" />
                     <p className="text-sm text-muted-foreground">
                       Deixe em branco para manter a senha atual
                     </p>
@@ -106,7 +88,6 @@ export default function SettingsPage() {
               </Card>
             </TabsContent>
 
-            {/* API Tab */}
             <TabsContent value="api">
               <Card>
                 <CardHeader>
@@ -115,14 +96,17 @@ export default function SettingsPage() {
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="api-key">Chave da API TraderMade</Label>
-                    <Input 
-                      id="api-key" 
-                      value={apiKey} 
-                      onChange={(e) => setApiKey(e.target.value)} 
+                    <Input
+                      id="api-key"
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
                       placeholder="Insira sua chave da API TraderMade"
                     />
                     <p className="text-sm text-muted-foreground">
-                      Obtenha sua chave em <a href="https://tradermade.com/signup" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">tradermade.com</a>
+                      Obtenha sua chave em{' '}
+                      <a href="https://tradermade.com/signup" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
+                        tradermade.com
+                      </a>
                     </p>
                   </div>
                   <div className="space-y-2">
@@ -144,7 +128,6 @@ export default function SettingsPage() {
               </Card>
             </TabsContent>
 
-            {/* Notifications Tab */}
             <TabsContent value="notifications">
               <Card>
                 <CardHeader>
@@ -154,44 +137,28 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium">Notificações por Email</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Receba alertas por email
-                      </p>
+                      <p className="text-sm text-muted-foreground">Receba alertas por email</p>
                     </div>
-                    <Switch 
-                      checked={emailNotifications} 
-                      onCheckedChange={setEmailNotifications} 
-                    />
+                    <Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium">Notificações Push</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Receba alertas no navegador
-                      </p>
+                      <p className="text-sm text-muted-foreground">Receba alertas no navegador</p>
                     </div>
-                    <Switch 
-                      checked={pushNotifications} 
-                      onCheckedChange={setPushNotifications} 
-                    />
+                    <Switch checked={pushNotifications} onCheckedChange={setPushNotifications} />
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium">Alertas Sonoros</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Receba alertas com som
-                      </p>
+                      <p className="text-sm text-muted-foreground">Receba alertas com som</p>
                     </div>
-                    <Switch 
-                      checked={soundAlerts} 
-                      onCheckedChange={setSoundAlerts} 
-                    />
+                    <Switch checked={soundAlerts} onCheckedChange={setSoundAlerts} />
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
 
-            {/* Appearance Tab */}
             <TabsContent value="appearance">
               <Card>
                 <CardHeader>
@@ -202,11 +169,7 @@ export default function SettingsPage() {
                     <Label>Tema</Label>
                     <div className="flex items-center space-x-2">
                       <Label htmlFor="theme-light" className="cursor-pointer">Light</Label>
-                      <Switch 
-                        id="theme-switch"
-                        checked={theme === 'dark'} 
-                        onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')} 
-                      />
+                      <Switch id="theme-switch" checked={theme === 'dark'} onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')} />
                       <Label htmlFor="theme-dark" className="cursor-pointer">Dark</Label>
                     </div>
                   </div>
@@ -228,12 +191,8 @@ export default function SettingsPage() {
             </TabsContent>
           </Tabs>
 
-          {/* Save Button */}
           <div className="mt-6">
-            <Button 
-              className="w-full md:w-auto bg-primary hover:bg-primary/90 text-white"
-              onClick={handleSave}
-            >
+            <Button className="w-full md:w-auto bg-primary hover:bg-primary/90 text-white" onClick={handleSave}>
               Salvar Alterações
             </Button>
           </div>
