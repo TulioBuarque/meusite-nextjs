@@ -23,14 +23,13 @@ const generateBusinessDates = (count: number) => {
     }
     date = subDays(date, 1);
   }
-  return dates.reverse(); // ✅ Inverte para mostrar na ordem cronológica correta
+  return dates.reverse();
 };
 
 // Gera horários simulados
 const generateTimeLabels = (startHour: number, intervalMinutes: number, count: number) => {
   const times = [];
-  let hour = startHour,
-    minute = 0;
+  let hour = startHour, minute = 0;
   for (let i = 0; i < count; i++) {
     times.push(`${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`);
     minute += intervalMinutes;
@@ -70,27 +69,27 @@ export function PipVariationTimeBlocks() {
   return (
     <div className="space-y-4 w-full">
       <h3 className="text-lg font-semibold text-center">📊 Variação de Pips — {timeframe}</h3>
-      <p className="text-center text-sm text-gray-400">
+      <p className="text-center text-sm text-gray-500">
         Variações positivas (verde) e negativas (vermelho).
       </p>
 
       {data.length > 0 ? (
-        <div className="bg-gray-700 rounded-lg p-2">
+        <div className="bg-white rounded-lg p-4 shadow">
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-              <XAxis dataKey="time" stroke="#ccc" />
-              <YAxis stroke="#ccc" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="time" stroke="#374151" />
+              <YAxis stroke="#374151" />
               <Tooltip
-                contentStyle={{ backgroundColor: '#333', border: 'none' }}
-                labelStyle={{ color: '#fff' }}
+                contentStyle={{ backgroundColor: '#f9fafb', border: '1px solid #e5e7eb' }}
+                labelStyle={{ color: '#111827' }}
                 formatter={(value: number) => [`${value} pips`, 'Variação']}
               />
               <Bar dataKey="pips">
                 {data.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={entry.pips >= 0 ? '#10b981' : '#ef4444'}
+                    fill={entry.pips >= 0 ? '#16a34a' : '#dc2626'}
                   />
                 ))}
               </Bar>
