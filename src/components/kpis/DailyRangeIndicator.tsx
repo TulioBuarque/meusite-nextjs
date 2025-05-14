@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 
 interface Props {
   asset: string;
@@ -43,4 +44,35 @@ export function DailyRangeIndicator({
     <div className="bg-white rounded-lg shadow p-4 w-full flex flex-col items-center">
       <h3 className="text-lg font-semibold mb-2 text-gray-800">{asset} — {date}</h3>
       <div className="relative h-80 w-24 flex flex-col items-center">
-        <div class
+        <div className="absolute w-1 bg-gray-300 h-full left-1/2 -translate-x-1/2 rounded"></div>
+
+        {/* Max Label */}
+        <div
+          className="absolute left-10 text-green-600 text-xs flex items-center"
+          style={{ bottom: `${posMax}%` }}
+        >
+          <div className="w-2 h-2 bg-green-600 rounded-full mr-1"></div>
+          Max {pipsMax} pips {percentageMax}
+        </div>
+
+        {/* Current Label */}
+        <div
+          className="absolute left-10 text-blue-600 text-xs flex items-center"
+          style={{ bottom: `${posCurrent}%` }}
+        >
+          <div className="w-2 h-2 bg-blue-600 rounded-full mr-1"></div>
+          Now {pipsCurrent} pips {percentageCurrent}
+        </div>
+
+        {/* Min Label */}
+        <div
+          className="absolute left-10 text-red-600 text-xs flex items-center"
+          style={{ bottom: `${posMin}%` }}
+        >
+          <div className="w-2 h-2 bg-red-600 rounded-full mr-1"></div>
+          Min 0 pips 0%
+        </div>
+      </div>
+    </div>
+  );
+}
