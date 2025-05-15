@@ -19,24 +19,13 @@ export function ProfessionalDailyRange({ asset, className = '' }: ProfessionalDa
 
   useEffect(() => {
     const open = 1.0800;
-    let tick = 0;
-
-    const interval = setInterval(() => {
-      const randomFluctuation = Math.sin(tick / 10) * 0.005;
-      const basePrice = open + randomFluctuation;
-
-      const simulatedData: DailyRangeData = {
-        open,
-        min: basePrice - 0.002,
-        max: basePrice + 0.003,
-        current: basePrice,
-      };
-
-      setData(simulatedData);
-      tick++;
-    }, 5000);
-
-    return () => clearInterval(interval);
+    const simulatedData: DailyRangeData = {
+      open,
+      min: 1.0795,
+      max: 1.0892,
+      current: 1.0845,
+    };
+    setData(simulatedData);
   }, [asset]);
 
   if (!data) {
@@ -58,14 +47,14 @@ export function ProfessionalDailyRange({ asset, className = '' }: ProfessionalDa
 
   const positionPercent = (value: number) => {
     if (max === min) return 50;
-    const relative = (value - min) / (max - min);
-    return relative * 100;
+    const relative = (value - open) / (max - min);
+    return 50 - (relative * 50); // Corrigido: positivos sobem, negativos descem
   };
 
   return (
     <div className={`flex flex-col items-center ${className}`}>
       <div className="relative h-64 w-12 flex flex-col items-center justify-between">
-        {/* Linha Vertical */}
+        {/* Linha vertical */}
         <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-gray-300 transform -translate-x-1/2"></div>
 
         {/* Max */}
