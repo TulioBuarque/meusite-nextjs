@@ -24,9 +24,6 @@ export function ProfessionalDailyRange({
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  const changeFromOpen = current - open;
-  const pipFromOpen = changeFromOpen * 10000;
-
   const percentFromOpen = ((current - open) / open) * 100;
   const percentMin = ((min - open) / open) * 100;
   const percentMax = ((max - open) / open) * 100;
@@ -60,19 +57,11 @@ export function ProfessionalDailyRange({
       ctx.fillRect(0, 0, width, height);
 
       const scale = (percent: number) => {
-        const range = percentMax - percentMin || 1; // avoid division by zero
+        const range = percentMax - percentMin || 1; // evita divisão por zero
         return height - ((percent - percentMin) / range) * height;
       };
 
-      // Draw Range Line
-      ctx.strokeStyle = "#cbd5e1";
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(width / 2, scale(percentMin));
-      ctx.lineTo(width / 2, scale(percentMax));
-      ctx.stroke();
-
-      // Draw Levels with Percentages
+      drawLine(ctx, width, scale(percentMin), scale(percentMax));
       drawLevel(ctx, width / 2, scale(percentMin), "Min", percentMin, "#ef4444");
       drawLevel(ctx, width / 2, scale(percentMax), "Max", percentMax, "#10b981");
       drawLevel(ctx, width / 2, scale(0), "Open", 0, "#3b82f6");
@@ -83,7 +72,7 @@ export function ProfessionalDailyRange({
   return (
     <div className={cn("w-full", className)}>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold">{asset} Daily Range</h3>
+        <h3 className="text-xl font-bold">{asset} Daily Range (%)</h3>
       </div>
       <div
         ref={containerRef}
@@ -92,10 +81,24 @@ export function ProfessionalDailyRange({
         <canvas ref={canvasRef} className="w-full h-full" />
       </div>
       <div className="mt-4 text-center text-sm text-muted-foreground">
-        Change from open: {pipFromOpen.toFixed(1)} pips
+        Change from open: {percentFromOpen.toFixed(2)}%
       </div>
     </div>
   );
+}
+
+function drawLine(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  startY: number,
+  endY: number
+) {
+  ctx.strokeStyle = "#cbd5e1";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(width / 2, startY);
+  ctx.lineTo(width / 2, endY);
+  ctx.stroke();
 }
 
 function drawLevel(
@@ -103,7 +106,7 @@ function drawLevel(
   x: number,
   y: number,
   label: string,
-  percent: number,
+  value: number,
   color: string
 ) {
   ctx.fillStyle = color;
@@ -115,5 +118,5 @@ function drawLevel(
   ctx.font = "12px sans-serif";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
-  ctx.fillText(`${label}: ${percent.toFixed(2)}%`, x + 10, y);
+  ctx.fillText(`${label}: ${value.toFixed(2)}%`, x + 10, y);
 }
