@@ -28,7 +28,7 @@ export function ProfessionalDailyRange({
     <div className={`flex flex-col space-y-2 ${className}`}>
       <div className="flex justify-between">
         <span>Open:</span>
-        <span>0%</span>
+        <span>{formatPercent(open)}</span>
       </div>
       <div className="flex justify-between">
         <span>Max:</span>
