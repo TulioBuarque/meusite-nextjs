@@ -24,10 +24,11 @@ export function ProfessionalDailyRange({
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  const safeOpen = open === 0 ? 1 : open; // Evita divisão por zero
-  const percentMin = ((min - safeOpen) / safeOpen) * 100;
-  const percentMax = ((max - safeOpen) / safeOpen) * 100;
-  const percentCurrent = ((current - safeOpen) / safeOpen) * 100;
+  const safeOpen = open === 0 ? 1 : open;
+
+  const percentMin = ((min - open) / safeOpen) * 100;
+  const percentMax = ((max - open) / safeOpen) * 100;
+  const percentCurrent = ((current - open) / safeOpen) * 100;
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -48,17 +49,16 @@ export function ProfessionalDailyRange({
       const ctx = canvasRef.current.getContext("2d");
       if (!ctx) return;
 
-      const { width, height } = dimensions;
+      const width = dimensions.width;
+      const height = dimensions.height;
       canvasRef.current.width = width;
       canvasRef.current.height = height;
 
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, width, height);
 
-      const scale = (percent: number) => {
-        const range = percentMax - percentMin || 1;
-        return height - ((percent - percentMin) / range) * height;
-      };
+      const range = percentMax - percentMin || 1;
+      const scale = (percent: number) => height - ((percent - percentMin) / range) * height;
 
       drawLine(ctx, width, scale(percentMin), scale(percentMax));
       drawLevel(ctx, width / 2, scale(percentMin), "Min", percentMin, "#ef4444");
@@ -92,14 +92,7 @@ function drawLine(ctx: CanvasRenderingContext2D, width: number, startY: number, 
   ctx.stroke();
 }
 
-function drawLevel(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  label: string,
-  value: number,
-  color: string
-) {
+function drawLevel(ctx: CanvasRenderingContext2D, x: number, y: number, label: string, value: number, color: string) {
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.arc(x, y, 5, 0, Math.PI * 2);
@@ -112,7 +105,7 @@ function drawLevel(
   ctx.fillText(`${label}: ${formatPercent(value)}`, x + 10, y);
 }
 
-function formatPercent(value: number) {
-  const sign = value > 0 ? "+" : value < 0 ? "" : "";
-  return `${sign}${value.toFixed(2)}%`;
+function formatPercent(value: number): string {
+  const prefix = value > 0 ? "+" : value < 0 ? "-" : "0";
+  return `${prefix}${Math.abs(value).toFixed(2)}%`;
 }
