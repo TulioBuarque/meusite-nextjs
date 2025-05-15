@@ -18,7 +18,7 @@ export function ProfessionalDailyRange({
   className = '',
 }: ProfessionalDailyRangeProps) {
   const formatPercent = (value: number) => {
-    if (value === 0) return '0%';
+    if (open === 0) return '0%'; // Protege contra divisão por zero
     const percentage = ((value - open) / open) * 100;
     const formatted = isNaN(percentage) ? '0%' : `${percentage > 0 ? '+' : ''}${percentage.toFixed(2)}%`;
     return formatted;
