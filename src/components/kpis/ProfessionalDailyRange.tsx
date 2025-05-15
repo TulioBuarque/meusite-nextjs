@@ -1,122 +1,39 @@
-"use client";
+useEffect(() => {
+  if (canvasRef.current && dimensions.width > 0) {
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) return;
 
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+    const width = dimensions.width;
+    const height = dimensions.height;
+    canvasRef.current.width = width;
+    canvasRef.current.height = height;
 
-interface Props {
-  asset: string;
-  min: number;
-  max: number;
-  current: number;
-  open: number;
-  className?: string;
-}
+    // Fundo de teste cinza claro
+    ctx.fillStyle = "#f0f0f0";
+    ctx.fillRect(0, 0, width, height);
 
-export function ProfessionalDailyRange({
-  asset,
-  min,
-  max,
-  current,
-  open,
-  className,
-}: Props) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-
-  const percentFromOpen = ((current - open) / open) * 100;
-  const percentMin = ((min - open) / open) * 100;
-  const percentMax = ((max - open) / open) * 100;
-  const percentCurrent = percentFromOpen;
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        setDimensions({
-          width: containerRef.current.clientWidth,
-          height: containerRef.current.clientHeight,
-        });
-      }
+    const scale = (percent: number) => {
+      const range = percentMax - percentMin || 1; // evita divisão por zero
+      return height - ((percent - percentMin) / range) * height;
     };
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
 
-  useEffect(() => {
-    if (canvasRef.current && dimensions.width > 0) {
-      const ctx = canvasRef.current.getContext("2d");
-      if (!ctx) return;
+    // Linha de teste visível no meio do canvas
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(width / 2, 0);
+    ctx.lineTo(width / 2, height);
+    ctx.stroke();
 
-      const width = dimensions.width;
-      const height = dimensions.height;
-      canvasRef.current.width = width;
-      canvasRef.current.height = height;
+    // Desenhar pontos fixos para garantir visualização
+    drawLevel(ctx, width / 2, 20, "Top", 0, "#ff0000");
+    drawLevel(ctx, width / 2, height - 20, "Bottom", 0, "#00ff00");
 
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, width, height);
-
-      const scale = (percent: number) => {
-        const range = percentMax - percentMin || 1; // evita divisão por zero
-        return height - ((percent - percentMin) / range) * height;
-      };
-
-      drawLine(ctx, width, scale(percentMin), scale(percentMax));
-      drawLevel(ctx, width / 2, scale(percentMin), "Min", percentMin, "#ef4444");
-      drawLevel(ctx, width / 2, scale(percentMax), "Max", percentMax, "#10b981");
-      drawLevel(ctx, width / 2, scale(0), "Open", 0, "#3b82f6");
-      drawLevel(ctx, width / 2, scale(percentCurrent), "Now", percentCurrent, "#6366f1");
-    }
-  }, [dimensions, percentMin, percentMax, percentCurrent]);
-
-  return (
-    <div className={cn("w-full", className)}>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold">{asset} Daily Range (%)</h3>
-      </div>
-      <div
-        ref={containerRef}
-        className="h-[300px] w-full bg-white rounded-lg shadow overflow-hidden"
-      >
-        <canvas ref={canvasRef} className="w-full h-full" />
-      </div>
-      <div className="mt-4 text-center text-sm text-muted-foreground">
-        Change from open: {percentFromOpen.toFixed(2)}%
-      </div>
-    </div>
-  );
-}
-
-function drawLine(
-  ctx: CanvasRenderingContext2D,
-  width: number,
-  startY: number,
-  endY: number
-) {
-  ctx.strokeStyle = "#cbd5e1";
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.moveTo(width / 2, startY);
-  ctx.lineTo(width / 2, endY);
-  ctx.stroke();
-}
-
-function drawLevel(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  label: string,
-  value: number,
-  color: string
-) {
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.arc(x, y, 5, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = color;
-  ctx.font = "12px sans-serif";
-  ctx.textAlign = "left";
-  ctx.textBaseline = "middle";
-  ctx.fillText(`${label}: ${value.toFixed(2)}%`, x + 10, y);
-}
+    // Tenta renderizar de fato os valores fornecidos
+    drawLine(ctx, width, scale(percentMin), scale(percentMax));
+    drawLevel(ctx, width / 2, scale(percentMin), "Min", percentMin, "#ef4444");
+    drawLevel(ctx, width / 2, scale(percentMax), "Max", percentMax, "#10b981");
+    drawLevel(ctx, width / 2, scale(0), "Open", 0, "#3b82f6");
+    drawLevel(ctx, width / 2, scale(percentCurrent), "Now", percentCurrent, "#6366f1");
+  }
+}, [dimensions, percentMin, percentMax, percentCurrent]);
