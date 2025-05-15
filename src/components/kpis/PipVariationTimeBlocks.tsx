@@ -65,6 +65,21 @@ export function PipVariationTimeBlocks() {
   const timeframe = useTimeframeStore((state) => state.selectedTimeframe);
   const data = mockContinuousData[timeframe] || [];
 
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const value = payload[0].value;
+      const isPositive = value >= 0;
+
+      return (
+        <div className="bg-white p-3 border border-slate-200 shadow-lg rounded-md">
+          <p className="text-slate-500 text-xs">{`Time: ${label}`}</p>
+          <p className={`font-medium ${isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>{`${value} pips`}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="space-y-4 w-full">
       <div className="flex justify-between items-center">
@@ -88,11 +103,7 @@ export function PipVariationTimeBlocks() {
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
               <XAxis dataKey="time" stroke="#64748b" fontSize={12} tickMargin={10} />
               <YAxis stroke="#64748b" fontSize={12} tickMargin={10} />
-              <Tooltip
-                contentStyle={{ backgroundColor: '#f9fafb', border: '1px solid #e2e8f0' }}
-                labelStyle={{ color: '#0f172a' }}
-                formatter={(value: number) => [`${value} pips`, 'Variação']}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="pips" radius={[4, 4, 0, 0]}>
                 {data.map((entry, index) => (
                   <Cell
