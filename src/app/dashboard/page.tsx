@@ -6,14 +6,13 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Home, BarChart2, User, Settings, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
+import { Home, BarChart2, User, Settings, TrendingUp, DollarSign } from "lucide-react";
 import { TimeframeSelector } from "@/components/TimeframeSelector";
 
 export default function DashboardPage() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <div className="flex min-h-screen bg-gray-50">
-
         {/* Sidebar */}
         <aside className="w-16 md:w-64 bg-white border-r border-gray-200 flex flex-col">
           <div className="p-4 border-b border-gray-200">
@@ -55,7 +54,7 @@ export default function DashboardPage() {
                 <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">EUR/USD</Badge>
               </div>
 
-              {/* Professional Daily Range */}
+              {/* Professional Daily Range - Agora com dados simulados dinâmicos */}
               <Card className="shadow-sm mb-6">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-gray-500">Daily Range (Percentual)</CardTitle>
@@ -63,10 +62,6 @@ export default function DashboardPage() {
                 <CardContent className="p-6">
                   <ProfessionalDailyRange
                     asset="EUR/USD"
-                    min={-0.02}
-                    max={0.15}
-                    current={0.07}
-                    open={0}
                     className="w-full"
                   />
                 </CardContent>
