@@ -18,9 +18,9 @@ export function ProfessionalDailyRange({
   className = '',
 }: ProfessionalDailyRangeProps) {
   const formatPercent = (value: number) => {
-    if (open === 0) return '0%'; // Protege contra divisão por zero
+    if (open === 0) return '0.00%'; // Protege contra divisão por zero
     const percentage = ((value - open) / open) * 100;
-    const formatted = isNaN(percentage) ? '0%' : `${percentage > 0 ? '+' : ''}${percentage.toFixed(2)}%`;
+    const formatted = isNaN(percentage) ? '0.00%' : `${percentage > 0 ? '+' : ''}${percentage.toFixed(2)}%`;
     return formatted;
   };
 
@@ -28,7 +28,7 @@ export function ProfessionalDailyRange({
     <div className={`flex flex-col space-y-2 ${className}`}>
       <div className="flex justify-between">
         <span>Open:</span>
-        <span>{formatPercent(open)}</span>
+        <span>0.00%</span>
       </div>
       <div className="flex justify-between">
         <span>Max:</span>
