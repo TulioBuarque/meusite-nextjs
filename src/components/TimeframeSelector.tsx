@@ -22,10 +22,10 @@ export function TimeframeSelector() {
         <button
           key={tf}
           onClick={() => handleSelect(tf)}
-          className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+          className={`px-3 py-1 text-xs font-medium rounded-md border transition-colors ${
             selectedTimeframe === tf
-              ? 'bg-indigo-600 text-white shadow border border-indigo-600'
-              : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'
+              ? 'bg-indigo-600 text-white border-indigo-600 shadow-md'
+              : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'
           }`}
         >
           {tf}
