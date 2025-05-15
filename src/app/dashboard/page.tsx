@@ -1,19 +1,19 @@
 "use client";
 
-import { ProfessionalDailyRange } from "@/components/kpis/ProfessionalDailyRange";
+import ProfessionalDailyRange from "@/components/kpis/ProfessionalDailyRange";
 import { PipVariationTimeBlocks } from "@/components/kpis/PipVariationTimeBlocks";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Home, BarChart2, User, Settings, TrendingUp, DollarSign } from "lucide-react";
+import { Home, BarChart2, User, Settings } from "lucide-react";
 import { TimeframeSelector } from "@/components/TimeframeSelector";
 
 export default function DashboardPage() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <div className="flex min-h-screen bg-gray-50">
-        
+
         {/* Sidebar */}
         <aside className="w-16 md:w-64 bg-[#F8F7FF] border-r border-gray-200 flex flex-col">
           <div className="p-4 border-b border-gray-200">
@@ -50,7 +50,6 @@ export default function DashboardPage() {
 
           {/* Market Status and Current Price */}
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            
             <Card className="border border-[#7D67FF] bg-[#F8F7FF] rounded-lg shadow-sm">
               <CardHeader>
                 <CardTitle className="text-[#7D67FF] font-bold">Market Status</CardTitle>
@@ -72,7 +71,6 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-
           </section>
 
           {/* Professional Daily Range */}
@@ -82,12 +80,22 @@ export default function DashboardPage() {
                 <CardTitle className="text-[#7D67FF] font-bold">Daily Range (Percentual)</CardTitle>
               </CardHeader>
               <CardContent>
-                <ProfessionalDailyRange asset="EUR/USD" className="w-full" />
+                <ProfessionalDailyRange
+                  data={{
+                    asset: "EUR/USD",
+                    date: "2025-05-16",
+                    open: 1.0800,
+                    high: 1.0892,
+                    low: 1.0795,
+                    current: 1.0845,
+                  }}
+                  title="Daily Range (Percentual)"
+                />
               </CardContent>
             </Card>
           </section>
 
-          {/* Activity and Timeframe */}
+          {/* Timeframe Selection */}
           <section className="mb-8">
             <Card className="shadow-sm border border-gray-200">
               <CardHeader>
