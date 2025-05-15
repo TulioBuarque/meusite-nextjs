@@ -24,9 +24,10 @@ export function ProfessionalDailyRange({
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  const percentFromOpen = ((current - open) / open) * 100;
-  const percentMin = ((min - open) / open) * 100;
-  const percentMax = ((max - open) / open) * 100;
+  const safeOpen = open === 0 ? 1 : open; // Previne divisão por zero
+  const percentFromOpen = ((current - safeOpen) / safeOpen) * 100;
+  const percentMin = ((min - safeOpen) / safeOpen) * 100;
+  const percentMax = ((max - safeOpen) / safeOpen) * 100;
   const percentCurrent = percentFromOpen;
 
   useEffect(() => {
@@ -93,14 +94,7 @@ function drawLine(ctx: CanvasRenderingContext2D, width: number, startY: number, 
   ctx.stroke();
 }
 
-function drawLevel(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  label: string,
-  value: number,
-  color: string
-) {
+function drawLevel(ctx: CanvasRenderingContext2D, x: number, y: number, label: string, value: number, color: string) {
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.arc(x, y, 5, 0, Math.PI * 2);
