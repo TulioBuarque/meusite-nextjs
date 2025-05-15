@@ -24,11 +24,10 @@ export function ProfessionalDailyRange({
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  const safeOpen = open === 0 ? 1 : open; // Previne divisão por zero
-  const percentFromOpen = ((current - safeOpen) / safeOpen) * 100;
+  const safeOpen = open === 0 ? 1 : open; // Evita divisão por zero
   const percentMin = ((min - safeOpen) / safeOpen) * 100;
   const percentMax = ((max - safeOpen) / safeOpen) * 100;
-  const percentCurrent = percentFromOpen;
+  const percentCurrent = ((current - safeOpen) / safeOpen) * 100;
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -49,8 +48,7 @@ export function ProfessionalDailyRange({
       const ctx = canvasRef.current.getContext("2d");
       if (!ctx) return;
 
-      const width = dimensions.width;
-      const height = dimensions.height;
+      const { width, height } = dimensions;
       canvasRef.current.width = width;
       canvasRef.current.height = height;
 
@@ -79,7 +77,7 @@ export function ProfessionalDailyRange({
         <canvas ref={canvasRef} className="w-full h-full" />
       </div>
       <div className="mt-4 text-center text-sm text-muted-foreground">
-        Change from open: {percentFromOpen.toFixed(2)}%
+        Change from open: {formatPercent(percentCurrent)}
       </div>
     </div>
   );
@@ -94,7 +92,14 @@ function drawLine(ctx: CanvasRenderingContext2D, width: number, startY: number, 
   ctx.stroke();
 }
 
-function drawLevel(ctx: CanvasRenderingContext2D, x: number, y: number, label: string, value: number, color: string) {
+function drawLevel(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  label: string,
+  value: number,
+  color: string
+) {
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.arc(x, y, 5, 0, Math.PI * 2);
@@ -104,5 +109,10 @@ function drawLevel(ctx: CanvasRenderingContext2D, x: number, y: number, label: s
   ctx.font = "12px sans-serif";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
-  ctx.fillText(`${label}: ${value.toFixed(2)}%`, x + 10, y);
+  ctx.fillText(`${label}: ${formatPercent(value)}`, x + 10, y);
+}
+
+function formatPercent(value: number) {
+  const sign = value > 0 ? "+" : value < 0 ? "" : "";
+  return `${sign}${value.toFixed(2)}%`;
 }
