@@ -15,7 +15,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 bg-blue-900 text-blue-100 flex flex-col h-screen p-4 border-r border-blue-800">
+    <aside className="fixed top-0 left-0 h-screen w-64 bg-blue-900 text-blue-100 flex flex-col p-4 border-r border-blue-800 z-50">
       <div className="flex items-center mb-10 px-2">
         <div className="mr-2">
           <div className="w-10 h-10 relative">
