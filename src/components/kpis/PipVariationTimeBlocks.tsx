@@ -27,7 +27,7 @@ const generateBusinessDates = (count: number) => {
 };
 
 // Gera horários simulados
-const generateTimeLabels = (startHour: number, intervalMinutes: number, count: number) => {
+const generateTimeLabels = (startHour: number, intervalMinutes: number, count: number = 10) => {
   const times = [];
   let hour = startHour, minute = 0;
   for (let i = 0; i < count; i++) {
@@ -41,14 +41,13 @@ const generateTimeLabels = (startHour: number, intervalMinutes: number, count: n
   return times;
 };
 
-// Gera dados simulados para os timeframes menores
+// Gera dados simulados para todos os timeframes
 const generateMockData = (startHour: number, intervalMinutes: number, count: number = 10) =>
   generateTimeLabels(startHour, intervalMinutes, count).map((time) => ({
     time,
     pips: Math.floor(Math.random() * 20 - 10),
   }));
 
-// Dados simulados para todos os timeframes
 const mockContinuousData = {
   '1M': generateMockData(9, 1),
   '5M': generateMockData(9, 5),
@@ -68,28 +67,38 @@ export function PipVariationTimeBlocks() {
 
   return (
     <div className="space-y-4 w-full">
-      <h3 className="text-lg font-semibold text-center">📊 Variação de Pips — {timeframe}</h3>
-      <p className="text-center text-sm text-gray-500">
-        Variações positivas (verde) e negativas (vermelho).
-      </p>
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-medium text-slate-700">Pip Variation — {timeframe}</h3>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-sm bg-emerald-500"></div>
+            <span className="text-xs text-slate-500">Positive</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-sm bg-rose-500"></div>
+            <span className="text-xs text-slate-500">Negative</span>
+          </div>
+        </div>
+      </div>
 
       {data.length > 0 ? (
-        <div className="bg-white rounded-lg p-4 shadow">
+        <div className="bg-white rounded-lg p-1 shadow-md border border-slate-200">
           <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="time" stroke="#374151" />
-              <YAxis stroke="#374151" />
+            <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+              <XAxis dataKey="time" stroke="#64748b" fontSize={12} tickMargin={10} />
+              <YAxis stroke="#64748b" fontSize={12} tickMargin={10} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#f9fafb', border: '1px solid #e5e7eb' }}
-                labelStyle={{ color: '#111827' }}
+                contentStyle={{ backgroundColor: '#f9fafb', border: '1px solid #e2e8f0' }}
+                labelStyle={{ color: '#0f172a' }}
                 formatter={(value: number) => [`${value} pips`, 'Variação']}
               />
-              <Bar dataKey="pips">
+              <Bar dataKey="pips" radius={[4, 4, 0, 0]}>
                 {data.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={entry.pips >= 0 ? '#16a34a' : '#dc2626'}
+                    fill={entry.pips >= 0 ? '#10b981' : '#e11d48'}
+                    fillOpacity={0.8}
                   />
                 ))}
               </Bar>
@@ -97,9 +106,11 @@ export function PipVariationTimeBlocks() {
           </ResponsiveContainer>
         </div>
       ) : (
-        <p className="text-center text-gray-500">
-          Nenhuma variação registrada para {timeframe}.
-        </p>
+        <div className="flex items-center justify-center h-64 bg-slate-50 rounded-lg border border-slate-200">
+          <p className="text-slate-500">
+            Nenhuma variação registrada para {timeframe}.
+          </p>
+        </div>
       )}
     </div>
   );
