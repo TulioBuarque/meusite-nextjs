@@ -1,111 +1,147 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+import { ProfessionalDailyRange } from "@/components/kpis/ProfessionalDailyRange";
+import { PipVariationTimeBlocks } from "@/components/kpis/PipVariationTimeBlocks";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Home, BarChart2, User, Settings, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
+import { TimeframeSelector } from "@/components/TimeframeSelector";
 
-interface Props {
-  asset: string;
-  min: number;
-  max: number;
-  current: number;
-  open: number;
-  className?: string;
-}
-
-export function ProfessionalDailyRange({
-  asset,
-  min,
-  max,
-  current,
-  open,
-  className,
-}: Props) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-
-  const safeOpen = open === 0 ? 1 : open;
-
-  const percentMin = ((min - open) / safeOpen) * 100;
-  const percentMax = ((max - open) / safeOpen) * 100;
-  const percentCurrent = ((current - open) / safeOpen) * 100;
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        setDimensions({
-          width: containerRef.current.clientWidth,
-          height: containerRef.current.clientHeight,
-        });
-      }
-    };
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
-
-  useEffect(() => {
-    if (canvasRef.current && dimensions.width > 0) {
-      const ctx = canvasRef.current.getContext("2d");
-      if (!ctx) return;
-
-      const width = dimensions.width;
-      const height = dimensions.height;
-      canvasRef.current.width = width;
-      canvasRef.current.height = height;
-
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, width, height);
-
-      const range = percentMax - percentMin || 1;
-      const scale = (percent: number) => height - ((percent - percentMin) / range) * height;
-
-      drawLine(ctx, width, scale(percentMin), scale(percentMax));
-      drawLevel(ctx, width / 2, scale(percentMin), "Min", percentMin, "#ef4444");
-      drawLevel(ctx, width / 2, scale(percentMax), "Max", percentMax, "#10b981");
-      drawLevel(ctx, width / 2, scale(0), "Open", 0, "#3b82f6");
-      drawLevel(ctx, width / 2, scale(percentCurrent), "Now", percentCurrent, "#6366f1");
-    }
-  }, [dimensions, percentMin, percentMax, percentCurrent]);
-
+export default function DashboardPage() {
   return (
-    <div className={cn("w-full", className)}>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold">{asset} Daily Range (%)</h3>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+      <div className="flex min-h-screen bg-gray-50">
+
+        {/* Sidebar */}
+        <aside className="w-16 md:w-64 bg-white border-r border-gray-200 flex flex-col">
+          <div className="p-4 border-b border-gray-200">
+            <h1 className="text-xl font-bold text-blue-600 hidden md:block">ForexBlocks</h1>
+          </div>
+          <nav className="flex-1 p-4">
+            <ul className="space-y-6">
+              <li><a href="/" className="flex items-center text-gray-500 hover:text-blue-600"><Home className="h-5 w-5 mr-3" /><span className="hidden md:inline">Home</span></a></li>
+              <li><a href="/dashboard" className="flex items-center text-blue-600 font-medium"><BarChart2 className="h-5 w-5 mr-3" /><span className="hidden md:inline">Assets</span></a></li>
+              <li><a href="#" className="flex items-center text-gray-500 hover:text-blue-600"><User className="h-5 w-5 mr-3" /><span className="hidden md:inline">Profile</span></a></li>
+              <li><a href="#" className="flex items-center text-gray-500 hover:text-blue-600"><Settings className="h-5 w-5 mr-3" /><span className="hidden md:inline">Settings</span></a></li>
+            </ul>
+          </nav>
+          <div className="p-4 border-t border-gray-200 hidden md:block">
+            <div className="flex items-center">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="https://via.placeholder.com/40" alt="Trader" />
+                <AvatarFallback>TR</AvatarFallback>
+              </Avatar>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-700">Trader</p>
+                <p className="text-xs text-gray-500">Free Account</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 p-6 overflow-auto">
+          <div className="max-w-7xl mx-auto">
+            <header className="flex justify-between items-center mb-8">
+              <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+            </header>
+
+            {/* Assets Section */}
+            <section className="mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-gray-800">Assets</h2>
+                <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">EUR/USD</Badge>
+              </div>
+
+              {/* Professional Daily Range */}
+              <Card className="shadow-sm mb-6">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-gray-500">Daily Range (Percentual)</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <ProfessionalDailyRange
+                    asset="EUR/USD"
+                    min={-0.02}
+                    max={0.15}
+                    current={0.07}
+                    open={0}
+                    className="w-full"
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Other Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="shadow-sm">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-medium text-gray-500">Current Price</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-col">
+                      <div className="flex items-baseline">
+                        <span className="text-3xl font-bold text-gray-800">1.078</span>
+                        <span className="ml-2 text-sm font-medium text-green-600 flex items-center">
+                          <TrendingUp className="h-4 w-4 mr-1" /> +0.05%
+                        </span>
+                      </div>
+                      <div className="mt-2 text-sm text-gray-500">EUR/USD • {new Date().toLocaleDateString()}</div>
+                      <div className="mt-4 grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs text-gray-500">Daily High</p>
+                          <p className="font-medium">1.085</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Daily Low</p>
+                          <p className="font-medium">1.070</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="shadow-sm">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-medium text-gray-500">Market Status</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-col h-full justify-center items-center py-4">
+                      <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-3">
+                        <DollarSign className="h-8 w-8 text-green-600" />
+                      </div>
+                      <p className="text-lg font-medium text-gray-800">Market Open</p>
+                      <p className="text-sm text-gray-500">Normal volatility</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            {/* Activity Section */}
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-gray-800">Activity</h2>
+              </div>
+
+              <Card className="shadow-sm mb-6">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-gray-500">Timeframe Selection</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <TimeframeSelector />
+                </CardContent>
+              </Card>
+
+              <Card className="shadow-sm">
+                <CardContent className="pt-6">
+                  <PipVariationTimeBlocks />
+                </CardContent>
+              </Card>
+            </section>
+          </div>
+        </main>
       </div>
-      <div ref={containerRef} className="h-[300px] w-full bg-white rounded-lg shadow overflow-hidden">
-        <canvas ref={canvasRef} className="w-full h-full" />
-      </div>
-      <div className="mt-4 text-center text-sm text-muted-foreground">
-        Change from open: {formatPercent(percentCurrent)}
-      </div>
-    </div>
+    </ThemeProvider>
   );
-}
-
-function drawLine(ctx: CanvasRenderingContext2D, width: number, startY: number, endY: number) {
-  ctx.strokeStyle = "#cbd5e1";
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.moveTo(width / 2, startY);
-  ctx.lineTo(width / 2, endY);
-  ctx.stroke();
-}
-
-function drawLevel(ctx: CanvasRenderingContext2D, x: number, y: number, label: string, value: number, color: string) {
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.arc(x, y, 5, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = color;
-  ctx.font = "12px sans-serif";
-  ctx.textAlign = "left";
-  ctx.textBaseline = "middle";
-  ctx.fillText(`${label}: ${formatPercent(value)}`, x + 10, y);
-}
-
-function formatPercent(value: number): string {
-  const prefix = value > 0 ? "+" : value < 0 ? "-" : "0";
-  return `${prefix}${Math.abs(value).toFixed(2)}%`;
 }
